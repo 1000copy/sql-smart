@@ -25,8 +25,7 @@ namespace SqlSmartTest
         public Dept()
         {
             Id = new SSKeyField<int>(this, "id");
-            Name = new SSField<string>(this, "name");
-            this.GetType();
+            Name = new SSField<string>(this, "name");                   
             fields.Add("id", Id);
             fields.Add("name", Name);
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection;
+using SqlSmart;
 
 
 
@@ -28,6 +30,18 @@ namespace SqlSmartTest
             // left join sql 
             sql = db.PersonList();
             Console.Out.WriteLine(sql);   
+            // test rtti
+            Type type = db.Dept.GetType();
+            foreach (FieldInfo fi in type.GetFields())
+            {
+                if (fi.FieldType == typeof(SSKeyField<int>) || fi.FieldType == typeof(SSField<string>) || fi.FieldType == typeof(SSField<int>))
+                {
+
+                    Console.Out.WriteLine(fi.Name);                  
+                    Console.Out.WriteLine(",",fi.);
+                    
+                }
+            }
             // pause ,wait for user input 
             Console.In.ReadLine();
         }

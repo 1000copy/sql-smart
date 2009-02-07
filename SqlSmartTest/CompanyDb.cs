@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SqlSmart;
+using System.Reflection;
 
 
 namespace SqlSmartTest
@@ -11,7 +12,11 @@ namespace SqlSmartTest
     {
         public Dept Dept = new Dept();
         public Person Person = new Person();
-
+        public CompanyDb()
+        {
+            Dept.InitFields();
+            Person.InitFields();
+        }
     }
 
     public class Dept : SSTable
@@ -25,9 +30,7 @@ namespace SqlSmartTest
         public Dept()
         {
             Id = new SSKeyField<int>(this, "id");
-            Name = new SSField<string>(this, "name");                   
-            fields.Add("id", Id);
-            fields.Add("name", Name);
+            Name = new SSField<string>(this, "name");             
         }
     }
     public class Person : SSTable
@@ -35,6 +38,7 @@ namespace SqlSmartTest
         public SSKeyField<int> Id = null;
         public SSField<string> Name = null;
         public SSField<int> DeptId = null;
+        public SSField<DateTime> Birthday = null;
         public override string ToString()
         {
             return "Person";
@@ -44,9 +48,7 @@ namespace SqlSmartTest
             Id = new SSKeyField<int>(this, "id");
             Name = new SSField<string>(this, "name");
             DeptId = new SSField<int>(this, "deptid");
-            fields.Add("id", Id);
-            fields.Add("name", Name);
-            fields.Add("deptid", DeptId);
+            Birthday = new SSField<DateTime>(this, "birthday");
         }
     }
 }

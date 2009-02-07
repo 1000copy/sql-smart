@@ -6,6 +6,8 @@
 
 
 using System.Collections.Generic;
+using System;
+using System.Reflection;
 namespace SqlSmart
 {
     // 系统类
@@ -15,6 +17,30 @@ namespace SqlSmart
         public SSTable()
         {
             fields = new Dictionary<string, object>();
+        }
+        // 把字段SSField加入fields
+        public void InitFields()
+        {
+            Type type = this.GetType();
+            foreach (FieldInfo fi in type.GetFields())
+            {
+                if (IsSupportFieldType(fi.FieldType))               
+                    fields.Add(fi.Name.ToLower(), fi.GetValue(this));                
+            }
+            // end
+        }
+        private bool IsSupportFieldType(Type fieldtype)
+        {
+            return     fieldtype == typeof(SSKeyField<int>)
+                    || fieldtype == typeof(SSKeyField<string>)
+                    || fieldtype == typeof(SSField<string>)
+                    || fieldtype == typeof(SSField<int>)
+                    || fieldtype == typeof(SSField<DateTime>);
+        }
+        private void CheckSupportFieldType(Type fieldtype)
+        {
+            if (!IsSupportFieldType(fieldtype))
+                throw new Exception(string.Format("Unsupport field type:",fieldtype.Name));
         }
         private string _tableKeyName = null;
         public virtual string TableKeyName { get { return _tableKeyName == null ? "id" : _tableKeyName; } set { _tableKeyName = value; } }
@@ -80,6 +106,10 @@ namespace SqlSmart
                     {
                         r += string.Format("'{0}'", ((SSField<string>)obj).Value);
                     }
+                    else if (obj is SSField<DateTime>)
+                    {
+                        r += string.Format("'{0}'", ((SSField<DateTime>)obj).Value.ToShortDateString());
+                    }
                     if (i != fields.Keys.Count)
                         r += ",";
                 }
@@ -96,6 +126,7 @@ namespace SqlSmart
                 {
                     i++;
                     object obj = keyvalue.Value;
+                    CheckSupportFieldType(obj.GetType());
                     if (obj is SSField<int>)
                     {
                         SSField<int> IntField = (SSField<int>)obj;

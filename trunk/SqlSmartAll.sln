@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlSmart", "SqlSmart\SqlSmart.csproj", "{96AB609F-A310-4564-BF73-A001781F7B1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlSmartTest", "SqlSmartTest\SqlSmartTest.csproj", "{10771833-5F61-4068-9F97-E42AE4A56B79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96AB609F-A310-4564-BF73-A001781F7B1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96AB609F-A310-4564-BF73-A001781F7B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96AB609F-A310-4564-BF73-A001781F7B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96AB609F-A310-4564-BF73-A001781F7B1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10771833-5F61-4068-9F97-E42AE4A56B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10771833-5F61-4068-9F97-E42AE4A56B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10771833-5F61-4068-9F97-E42AE4A56B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10771833-5F61-4068-9F97-E42AE4A56B79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

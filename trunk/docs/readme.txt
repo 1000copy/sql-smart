@@ -1,21 +1,22 @@
 
-SqlSmart ½éÉÜ
+sql-smart ½éÉÜ
 
 ×÷Õß£º1000copy@gmail.com
 
-1. SqlSmartÊÇÊ²Ã´£¿
+1. sql-smartÊÇÊ²Ã´£¿
 
-SqlSmartÊÇÒ»¸öDotNetÀà¿â£¬Ëü¿ÉÒÔ³ä·ÖÀûÓÃ codeinsight ,ÃæÏò¶ÔÏó¼¼ÊõÀ´°ïÖú³ÌÐòÔ±¸ü¿ìµÄ£¬¸ü×¼È·µ½±àÐ´sql£¬ÕâÑùµÄsqlÒÔÈÝÒ×ÖØ¹¹µÄ¡£
+sql-smartÊÇÒ»¸öDotNetÀà¿â£¬Ëü¿ÉÒÔ³ä·ÖÀûÓÃ codeinsight ,ÃæÏò¶ÔÏó¼¼ÊõÀ´°ïÖú³ÌÐòÔ±¸ü¿ìµÄ£¬¸ü×¼È·µ½±àÐ´sql£¬ÕâÑùµÄsqlÒÔÈÝÒ×ÖØ¹¹µÄ¡£
 ÌýÆðÀ´Ä°Éú£¿ÕâÊÇÏë·¨ÎÒÖ®Ç°²¢Ã»ÓÐÔÚÆäËûORM¼¼Êõ£¬±ÈÈç Hibernate,RORÄÚÕâÑù´óÃû¶¦¶¦µ½Àà¿âÖÐ¼û¹ý£¨Èç¹ûÄã·¢ÏÖÕâ²¢²»È·ÇÐ£¬Çë¸øÎÒ´ò¸öÕÐºô£©¡£
+Òò´Ë£¬Õâ²¢²»ÊÇÒ»¸öYet AnotherµÄÀà¿â¡£
 ²»¹ýËü²»ÏñÊÇÌýÆðÀ´ÄÇÃ´¸´ÔÓ£¬Êµ¼ÊÉÏ£¬ËüµÄÖ÷ÒªÌØµã¾ÍÊÇ¼òµ¥¡£ÎÒ»á¼ÌÐøÏêÏ¸µÄËµÃ÷£¬°üÀ¨±ØÒªµ½Àý×Ó¡£
 ¼øÓÚ¼òµ¥£¬Ò²²»ÐèÒªÌØ¶¨µ½ÓïÑÔÌØÉ«µÄÖ§³Ö£¬Òò´Ë£¬ÔÚÆäËûÓïÑÔÖÐÒ»Ñù¿ÉÒÔÊµÏÖ¡£
-²»¹ý£¬ÎÒ·¢ÏÖC#µÄÄ£°å¼¼Êõ£¬ºÍRTTI ÈÃ´úÂë±àÐ´¸ü¼ÓÈÝÒ×£¬²¢ÇÒVSµ½code insight¼¼ÊõÈÃSqlSmart¹¤×÷Á¼ºÃ¡£
+²»¹ý£¬ÎÒ·¢ÏÖC#µÄÄ£°å¼¼Êõ£¬ºÍRTTI ÈÃ´úÂë±àÐ´¸ü¼ÓÈÝÒ×£¬²¢ÇÒVSµ½code insight¼¼ÊõÈÃsql-smart¹¤×÷Á¼ºÃ¡£
 Êµ¼ÊÉÏÎÒµÄÊµÏÖÕýÊÇ»ùÓÚC#À´×öµÄ¡£
 
-SqlSmartºÍHiberniteÓÐÀàËÆÖ®´¦£¬¶¼ÊÇ²ÉÓÃÀà±í´ïÊý¾Ý¿â£¬²»Í¬µÄÊÇ£¬ÕÆÎÕºóÕßÐèÒªÒ»±¾ÊéºÍºÜ¶àµÄÊµ¼ù£¬ÕÆÎÕÇ°ÕßÄãÐèÒªµÄÖ»ÊÇ¿´¿´ÕâÆªÎÄµµ£¬È»ºóÏÂÔØÒ»·ÝÈ¥³¢ÊÔ¡£
+sql-smartºÍHiberniteÓÐÀàËÆÖ®´¦£¬¶¼ÊÇ²ÉÓÃÀà±í´ïÊý¾Ý¿â£¬²»Í¬µÄÊÇ£¬ÕÆÎÕºóÕßÐèÒªÒ»±¾ÊéºÍºÜ¶àµÄÊµ¼ù£¬ÕÆÎÕÇ°ÕßÄãÐèÒªµÄÖ»ÊÇ¿´¿´ÕâÆªÎÄµµ£¬È»ºóÏÂÔØÒ»·ÝÈ¥³¢ÊÔ¡£
 
 
-2. SqlSmartÄÜ×öÊ²Ã´£¿
+2. sql-smartÄÜ×öÊ²Ã´£¿
 
 ÓÃÒ»¸öÀý×ÓÀ´ËµÃ÷°É¡£
 Èç¹û¸øÄãÒ»¸öÊý¾Ý¿â£¬ÄÚÓÐ±íÁ½ÕÅ¡£Ò»¸öDept£¬Ò»¸öPerson£¬ÕâÊÇÎÒÃÇ±È½Ï³£¼ûµ½±í£¬ËûÃÇ¿ÉÒÔÓÐ¹ØÁª¹ØÏµ£¬±ÈÈçPersonºÍDeptÓÐ¶à¶ÔÒ»µÄ¹ØÏµ¡£
@@ -37,38 +38,39 @@ SqlSmartºÍHiberniteÓÐÀàËÆÖ®´¦£¬¶¼ÊÇ²ÉÓÃÀà±í´ïÊý¾Ý¿â£¬²»Í¬µÄÊÇ£¬ÕÆÎÕºóÕßÐèÒªÒ»±¾Ê
   ÄÇÃ´¶ÔËüµ½³£ÓÃ²Ù×÷±ÈÈç²éÑ¯PersonList : 
     sql = "select d.name as deptname,p.name,p.id from person  p left join dept d on p.deptid = d.id"
   Õâ¶Ô´ó¼ÒÀ´ËµÊÇÔÙÊìÏ¤²»¹ýµÄÁË¡£¶ÔÎÒÒ²ÊÇÈç´Ë£¬ÎÒ×Ô´ÓµÚÒ»´ÎÊ¹ÓÃsqlserver¾ÍÊÇÕâÃ´¸ÉµÄ£¬¸ÉÁËºÜ¶àÄêÁË¡£
-  ÄÇÃ´ÔÚSqlSmartÄÚ½«»áÊÇ
+  ÄÇÃ´ÔÚsql-smartÄÚ½«»áÊÇ
   
     string sql = "";
     sql = "select {0},{1},{2} from {3} left join {4} on {5} ={6} ";
     sql = string.Format(sql, Dept.Name ,Person.name,Person.id, Person, Dept, Person.DeptId, Dept.Id);
-  ²î±ð²»´ó£¬Êµ¼ÊÉÏSqlSmartµÄ¹Ø¼ü¼¼Êõ²»È¥¸Ä±äÐ´sqlµ½¹ý³Ì¡£²»ÏëHibernian£¬RORÒÔÀàÎªºËÐÄ£¬¶øLinq¿´ÆðÀ´ÏñÊÇsql£¬Êµ¼ÊÉÏ²»ÊÇ¡£ÓÐÐ©ºÜÏ¸Î¢µ½£¬Âé·³µÄÄ£Ê½ÇÐ»»¡£
+  ²î±ð²»´ó£¬Êµ¼ÊÉÏsql-smartµÄ¹Ø¼ü¼¼Êõ²»È¥¸Ä±äÐ´sqlµ½¹ý³Ì¡£²»ÏëHibernian£¬RORÒÔÀàÎªºËÐÄ£¬¶øLinq¿´ÆðÀ´ÏñÊÇsql£¬Êµ¼ÊÉÏ²»ÊÇ¡£ÓÐÐ©ºÜÏ¸Î¢µ½£¬Âé·³µÄÄ£Ê½ÇÐ»»¡£
   ÎÒµÄ¹ÛµãÒ»ÏòÊÇsqlÊÇ¹¤Òµ±ê×¼£¬Î§ÈÆ×ÅsqlÈ¥×ö¹¤×÷£¬¶ø²»ÊÇÁíÍâ½¨Á¢Ò»Ì××¨ÓÐ·½°¸£¬»áÈÃÇ¨ÒÆÄ£Ê½±äµÃ¼òµ¥¡£
   ÄÇÃ´ºÃ´¦ÊÇÊ²Ã´£¿
   
 3. ¸ü¿ì£¬¸ü¼Ó¾«È·£¬²»±Ø¸Ä±äÏÖÔÚµÄÏ°¹ß¡£
 
    3.1 Ò»°ãsqlÊÇ»ùÓÚ×Ö·û´®µÄ£¬ÎÞ·¨³ä·ÖÀûÓÃÓïÑÔµÄ±àÒëÌØÐÔÈ¥¼ì²é´íÎó¡£
-   SqlSmart¿ÉÒÔ¸üºÃµ½ÀûÓÃ±àÒëÆ÷¼¼ÊõÈ¥¼ì´í¡£
+   sql-smart¿ÉÒÔ¸üºÃµ½ÀûÓÃ±àÒëÆ÷¼¼ÊõÈ¥¼ì´í¡£
    3.2 µ±ÖØ¹¹µÄÊ±ºò£¬ÖªµÀ±í£¬×Ö¶ÎÔÚÄÇÀï±»ÒýÓÃÁËÖÁ¹ØÖØÒª¡£
-   Ê¹ÓÃPure sqlÒª²éÑ¯Ó¦ÓÃ£¬Ö»ÄÜÊ¹ÓÃFind£¬²»¾«È·¡£SqlSmartÒòÎªÓÃÀàÀ´±í´ï±íºÍ×Ö¶Î£¬ÏëÒª²éÕÒÓ¦ÓÃ¾ÍÖ±½ÓÓÃVSµ½Find References¼´¿É¡£
-   3.3 µ±ÐèÒª¸ÄÃûµÄÊ±ºò£¬SqlSmart±È½Ï·½±ãµÄ¸ÄÃû¡£
+   Ê¹ÓÃPure sqlÒª²éÑ¯Ó¦ÓÃ£¬Ö»ÄÜÊ¹ÓÃFind£¬²»¾«È·¡£sql-smartÒòÎªÓÃÀàÀ´±í´ï±íºÍ×Ö¶Î£¬ÏëÒª²éÕÒÓ¦ÓÃ¾ÍÖ±½ÓÓÃVSµ½Find References¼´¿É¡£
+   3.3 µ±ÐèÒª¸ÄÃûµÄÊ±ºò£¬sql-smart±È½Ï·½±ãµÄ¸ÄÃû¡£
    Ê¹ÓÃVSÓÐÐ©2ÄêÁË£¬ÎÒ³£³£·¢ÏÖÔÚ±à³Ì¹ý³ÌÖÐ£¬ÒýÈëÁËÐÂµÄÌØÐÔµÄÊ±ºò£¬¸ÄÃûÒÔ±ãÖ§³Ö¸üºÃµÄ·ûºÏÐÂµÄÐèÇó£¬ÊÇ³£³£ÐèÒªµÄ¡£
    ÐèÒªÔÚPure sqlÄÚÒª¸ÄÃû£¬ÐèÒªÓÃfind/replace ,¸ÄÁËÖ®ºóÐèÒª²âÊÔ£¬³£³£»á³öÏÖ¸Ä´íµ½Çé¿ö¡£
-   ¶ø²ÉÓÃSqlSmartÀ´²úÉúSqlÒªÐÞ¸Ä±íÃû£¬×Ö¶ÎÃû£¬Ö±½ÓÓÃF2¸ã¶¨£¬²»±Ø²âÊÔ£¬Ö»ÒªVSÈÃÄã¸Ä£¬¾Í²»»á´í£ºÂß¼­ÉÏ¸ÄÃûºÍÔ­À´µÄ´úÂëÊÇÍêÈ«µÈÐ§µÄ¡£
-   3.4 Pure sqlÎÞ·¨ÀûÓÃVSµÄ´úÂëÌáÊ¾£¬¶øSqlSmart¿ÉÒÔ¡£
+   ¶ø²ÉÓÃsql-smartÀ´²úÉúSqlÒªÐÞ¸Ä±íÃû£¬×Ö¶ÎÃû£¬Ö±½ÓÓÃF2¸ã¶¨£¬²»±Ø²âÊÔ£¬Ö»ÒªVSÈÃÄã¸Ä£¬¾Í²»»á´í£ºÂß¼­ÉÏ¸ÄÃûºÍÔ­À´µÄ´úÂëÊÇÍêÈ«µÈÐ§µÄ¡£
+   3.4 Pure sqlÎÞ·¨ÀûÓÃVSµÄ´úÂëÌáÊ¾£¬¶øsql-smart¿ÉÒÔ¡£
     ±ÈÈç Dept.Name ,Person.name,Person.id£¬ÕâÀïµ½Person,Dept,Name,Id¶¼ÊÇ¿ÉÒÔ´úÂëÌáÊ¾µÄ¡£   
-   3.5 Linq,ROR,Hibernate¶¼ÐèÒª¸Ä±ä³ÌÐòÔ±µ½Ï°¹ß£¬SqlSmartµÄ¸Ä±äºÜÐ¡¡£
+   3.5 Linq,ROR,Hibernate¶¼ÐèÒª¸Ä±ä³ÌÐòÔ±µ½Ï°¹ß£¬sql-smartµÄ¸Ä±äºÜÐ¡¡£
    ¿´ÉÏÃæÌá¹©µÄ¶Ô±ÈÀý×Ó¾ÍÖªµÀÕâÒ»µãÊÇOKµÄ¡£
    
    
-   ²ÉÓÃSqlSmart¿ÉÒÔ¸üºÃµ½ÀûÓÃÓïÑÔµ½±àÒëÄÜÁ¦È¥¼ì´í£¬²¢ÇÒ³ä·ÖÀûÓÃVSÌá¹©µÄÖØ¹¹£¬´úÂëÌáÊ¾¹¦ÄÜ¡£
+   ²ÉÓÃsql-smart¿ÉÒÔ¸üºÃµ½ÀûÓÃÓïÑÔµ½±àÒëÄÜÁ¦È¥¼ì´í£¬²¢ÇÒ³ä·ÖÀûÓÃVSÌá¹©µÄÖØ¹¹£¬´úÂëÌáÊ¾¹¦ÄÜ¡£
    
-4. ÈçºÎ²Å¿ÉÒÔ¹¤×÷?
-    sqlsmart.dll Ìá¹©ÒÔÉÏÄÜÁ¦£¨±ØÐë£©
-    sqlsmart_autogene.exe Éú³ÉÀàºÍÊý¾Ý¿â±í×Ö¶ÎµÄ¶ÔÓ¦¹ØÏµ¡££¨¿ÉÑ¡£©£¬Äã¿ÉÒÔ×Ô¼ºÐ´¶ÔÓ¦¹ØÏµ£¬ÕâÑù²¢²»Âé·³¡£
+4. ÈçºÎ²Å¿ÉÒÔ¿ªÊ¼?
+    sql-smart.dll Ìá¹©ÒÔÉÏÄÜÁ¦£¨±ØÐë£©
+    sql-smart_autogene.exe Éú³ÉÀàºÍÊý¾Ý¿â±í×Ö¶ÎµÄ¶ÔÓ¦¹ØÏµ¡££¨¿ÉÑ¡£©£¬Äã¿ÉÒÔ×Ô¼ºÐ´¶ÔÓ¦¹ØÏµ£¬ÕâÑù²¢²»Âé·³¡£
     ¿´Àý×Ó¿ÉÒÔ¸ü¿ì½øÈë×´Ì¬¡£
-    Çë´Ó sqlsmart @ google code ÏÂÔØ¡£
+    Çë´Ó sql-smart @ google code :http://code.google.com/p/sql-smart/ ÏÂÔØ¡£
+    Ê¹ÓÃÕâ¸öÀà¿â£¬ÄãÐèÒªÓÐvS2008µÄ°²×°£¬µ±È»Èç¹ûÖ»ÊÇÔÄ¶Á£¬Ëæ±ãÊ²Ã´Notepad¾Í¿ÉÒÔ¡£
 
   
   

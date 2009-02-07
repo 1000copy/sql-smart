@@ -30,18 +30,13 @@ namespace SqlSmartTest
             // left join sql 
             sql = db.PersonList();
             Console.Out.WriteLine(sql);   
-            // test rtti
-            Type type = db.Dept.GetType();
-            foreach (FieldInfo fi in type.GetFields())
-            {
-                if (fi.FieldType == typeof(SSKeyField<int>) || fi.FieldType == typeof(SSField<string>) || fi.FieldType == typeof(SSField<int>))
-                {
-
-                    Console.Out.WriteLine(fi.Name);                  
-                    Console.Out.WriteLine(",",fi.);
-                    
-                }
-            }
+            // insert person
+            db.Person.Birthday.Value = DateTime.Today.Date;
+            db.Person.DeptId.Value = 1;
+            db.Person.Name.Value = "1000copy";
+            db.Person.Id.Value = 1 ;
+            sql = db.Person.Insert();
+            Console.Out.WriteLine(sql);
             // pause ,wait for user input 
             Console.In.ReadLine();
         }

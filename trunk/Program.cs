@@ -20,7 +20,7 @@ namespace SqlSmartTest
             db.Dept.Id.Value = 1;
             db.Dept.Name.Value = "trd";
             sql = db.Dept.Insert();
-            // update
+            // update 
             Console.Out.WriteLine(sql);
             sql = db.Dept.Update();
             Console.Out.WriteLine(sql);

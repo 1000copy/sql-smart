@@ -13,10 +13,10 @@ namespace SqlSmart
     // 系统类
     public class SSTable
     {
-        public Dictionary<string, object> fields = null;
+        public Dictionary<string, SSField> fields = null;
         public SSTable()
         {
-            fields = new Dictionary<string, object>();
+            fields = new Dictionary<string, SSField>();
         }
         // 把字段SSField加入fields
         public void InitFields()
@@ -25,33 +25,41 @@ namespace SqlSmart
             foreach (FieldInfo fi in type.GetFields())
             {
                 if (IsSupportFieldType(fi.FieldType))               
-                    fields.Add(fi.Name.ToLower(), fi.GetValue(this));                
+                    fields.Add(fi.Name.ToLower(), (SSField)(fi.GetValue(this)));                
             }
             // end
         }
         private bool IsSupportFieldType(Type fieldtype)
         {
-            return     fieldtype == typeof(SSKeyField<int>)
-                    || fieldtype == typeof(SSKeyField<string>)
-                    || fieldtype == typeof(SSField<string>)
-                    || fieldtype == typeof(SSField<int>)
-                    || fieldtype == typeof(SSField<DateTime>);
+            return fieldtype == typeof(SSField);
+        }
+        private void UnsupportException ()
+        {
+            new Exception(string.Format("Unsupport field type:")); 
         }
         private void CheckSupportFieldType(Type fieldtype)
         {
             if (!IsSupportFieldType(fieldtype))
-                throw new Exception(string.Format("Unsupport field type:",fieldtype.Name));
+                UnsupportException();
         }
-        private string _tableKeyName = null;
-        public virtual string TableKeyName { get { return _tableKeyName == null ? "id" : _tableKeyName; } set { _tableKeyName = value; } }
+        public virtual string TableKeyName
+        {
+            get
+            {
+                foreach (KeyValuePair<string, SSField> keyvalue in fields)
+                {
+                    string key = keyvalue.Key;
+                    SSField value = keyvalue.Value;
+                    if (value.IsKey) return key;
+                }
+                return "";
+            }
+        }
         public virtual object TableKeyValue {
             get 
             {
-                object obj = fields[TableKeyName] ;
-                if (obj is SSKeyField<int>)
-                    return ((SSKeyField<int>)obj).Value;
-                else if (obj is SSKeyField<string>)
-                    return ((SSKeyField<string>)obj).Value;
+                if (fields.ContainsKey(TableKeyName))
+                    return fields[TableKeyName] ;
                 else
                     return null;
             }
@@ -94,22 +102,20 @@ namespace SqlSmart
             {
                 string r = "";
                 int i = 0;
-                foreach (KeyValuePair<string, object> keyvalue in fields)
+                foreach (KeyValuePair<string, SSField> keyvalue in fields)
                 {
                     i++;
-                    object obj = keyvalue.Value;
-                    if (obj is SSField<int>)
+                    SSField field = keyvalue.Value;
+                    if (field.FieldType == SSFieldType.Int)
                     {
-                        r += ((SSField<int>)obj).Value.ToString();
+                        r += ((SSField)field).Value.ToString();
                     }
-                    else if (obj is SSField<string>)
+                    else if (field.FieldType == SSFieldType.String || field.FieldType == SSFieldType.DateTime)
                     {
-                        r += string.Format("'{0}'", ((SSField<string>)obj).Value);
+                        r += string.Format("'{0}'", field.Value.ToString());
                     }
-                    else if (obj is SSField<DateTime>)
-                    {
-                        r += string.Format("'{0}'", ((SSField<DateTime>)obj).Value.ToShortDateString());
-                    }
+                    else 
+                        UnsupportException();
                     if (i != fields.Keys.Count)
                         r += ",";
                 }
@@ -122,21 +128,21 @@ namespace SqlSmart
             {
                 string r = "";
                 int i = 0;
-                foreach (KeyValuePair<string, object> keyvalue in fields)
+                foreach (KeyValuePair<string, SSField> keyvalue in fields)
                 {
                     i++;
-                    object obj = keyvalue.Value;
-                    CheckSupportFieldType(obj.GetType());
-                    if (obj is SSField<int>)
+                    SSField field = keyvalue.Value;
+                    CheckSupportFieldType(field.GetType());
+                    if (field.FieldType == SSFieldType.Int)
                     {
-                        SSField<int> IntField = (SSField<int>)obj;
-                        r += string.Format("{0}={1}", IntField.FieldName, IntField.Value.ToString());
+                        r += string.Format("{0}={1}", field.FieldName, field.Value.ToString());
                     }
-                    else if (obj is SSField<string>)
+                    else if (field.FieldType == SSFieldType.String)
                     {
-                        SSField<string> StringField = (SSField<string>)obj;
-                        r += string.Format("{0}='{1}'", StringField.FieldName, StringField.Value.ToString());
+                        r += string.Format("{0}='{1}'", field.FieldName, field.Value.ToString());
                     }
+                    else
+                        UnsupportException();
                     if (i != fields.Keys.Count)
                         r += ",";
                 }
@@ -166,13 +172,30 @@ namespace SqlSmart
     }
     public class SSDatabase
     {
-
+        public SSDatabase()
+        {
+            // 找到所有SSTable类型的成员，并且调用它的InitFields 方法
+            Type type = this.GetType();
+            foreach (FieldInfo fi in type.GetFields())
+            {
+                if (fi.FieldType.BaseType == typeof(SSTable))
+                    (fi.GetValue(this) as SSTable).InitFields();
+            }
+        }
 
     }
-    public class SSField<DbFieldType>
+    public enum SSFieldType { Int,String,DateTime};
+    public class SSField
     {
         string _fieldname = null;
         SSTable _ownerTable = null;
+        private SSFieldType _fieldtype;
+
+        public SSFieldType FieldType
+        {
+            get { return _fieldtype; }
+            set { _fieldtype = value; }
+        }
         public string FieldName
         {
             get { return _fieldname; }
@@ -182,23 +205,29 @@ namespace SqlSmart
         {
             return _ownerTable.ToString() + "." + FieldName;
         }
-        public SSField(SSTable table, string fieldname)
+        public SSField(SSTable table, string fieldname, SSFieldType fieldtype,bool iskey)
+            : this(table, fieldname,fieldtype)
+        {
+            _iskey = iskey;
+        }
+        public SSField(SSTable table, string fieldname,SSFieldType fieldtype)
         {
             _ownerTable = table;
             _fieldname = fieldname;
+            _fieldtype = fieldtype;
         }
-        private DbFieldType _value;
-        public virtual DbFieldType Value
+        private object _value;
+        public virtual object Value
         {
             set { _value = value; }
             get { return _value; }
         }
-    }
-    public class SSKeyField<DbFieldType> : SSField<DbFieldType>
-    {
-        public SSKeyField(SSTable table, string fieldname)
-            : base(table, fieldname)
+        private bool _iskey = false;
+
+        public bool IsKey
         {
+            get { return _iskey; }
+            set { _iskey = value; }
         }
     }
 }

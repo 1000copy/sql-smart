@@ -14,41 +14,43 @@ namespace SqlSmartTest
         public Person Person = new Person();
         public CompanyDb()
         {
+            /*
             Dept.InitFields();
             Person.InitFields();
+             */
         }
     }
 
     public class Dept : SSTable
     {
-        public SSKeyField<int> Id = null;
-        public SSField<string> Name = null;
+        public SSField Id = null;
+        public SSField Name = null;
         public override string ToString()
         {
             return "Dept";
         }
         public Dept()
         {
-            Id = new SSKeyField<int>(this, "id");
-            Name = new SSField<string>(this, "name");             
+            Id = new SSField(this, "id",SSFieldType.Int,true);
+            Name = new SSField(this, "name",SSFieldType.String);             
         }
     }
     public class Person : SSTable
     {
-        public SSKeyField<int> Id = null;
-        public SSField<string> Name = null;
-        public SSField<int> DeptId = null;
-        public SSField<DateTime> Birthday = null;
+        public SSField Id = null;
+        public SSField Name = null;
+        public SSField DeptId = null;
+        public SSField Birthday = null;
         public override string ToString()
         {
             return "Person";
         }
         public Person()
         {
-            Id = new SSKeyField<int>(this, "id");
-            Name = new SSField<string>(this, "name");
-            DeptId = new SSField<int>(this, "deptid");
-            Birthday = new SSField<DateTime>(this, "birthday");
+            Id = new SSField(this, "id",SSFieldType.Int,true);
+            Name = new SSField(this, "name",SSFieldType.String);
+            DeptId = new SSField(this, "deptid", SSFieldType.Int);
+            Birthday = new SSField(this, "birthday", SSFieldType.DateTime);
         }
     }
 }

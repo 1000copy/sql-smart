@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlSmart", "SqlSmart\SqlSmart.csproj", "{96AB609F-A310-4564-BF73-A001781F7B1A}"
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlSmartTest", "SqlSmartTest.csproj", "{5305F5D8-66BC-4D54-B6E8-D7437E3E98D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlSmartTest", "SqlSmartTest\SqlSmartTest.csproj", "{10771833-5F61-4068-9F97-E42AE4A56B79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlSmart", "SqlSmart\SqlSmart.csproj", "{46AB3FC6-134C-4F9B-BC9F-7D1948B8F38F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +11,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{96AB609F-A310-4564-BF73-A001781F7B1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96AB609F-A310-4564-BF73-A001781F7B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96AB609F-A310-4564-BF73-A001781F7B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96AB609F-A310-4564-BF73-A001781F7B1A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10771833-5F61-4068-9F97-E42AE4A56B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10771833-5F61-4068-9F97-E42AE4A56B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10771833-5F61-4068-9F97-E42AE4A56B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10771833-5F61-4068-9F97-E42AE4A56B79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5305F5D8-66BC-4D54-B6E8-D7437E3E98D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5305F5D8-66BC-4D54-B6E8-D7437E3E98D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5305F5D8-66BC-4D54-B6E8-D7437E3E98D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5305F5D8-66BC-4D54-B6E8-D7437E3E98D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46AB3FC6-134C-4F9B-BC9F-7D1948B8F38F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46AB3FC6-134C-4F9B-BC9F-7D1948B8F38F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46AB3FC6-134C-4F9B-BC9F-7D1948B8F38F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46AB3FC6-134C-4F9B-BC9F-7D1948B8F38F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

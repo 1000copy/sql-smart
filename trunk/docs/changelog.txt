@@ -1,0 +1,6 @@
+
+
+2009年2月8日 初始版本，从2009年2月5日有了想法，在周末做了一个实现，现在支持int,string,datetime三种类型
+
+下一步1，完成Sqlsmart::Reflector ,可以从sqlserver2000产生对应数据库的类文件，所谓的SSDbSchema.cs 文件。
+接下来，完成OpenIlas的现有功能，进一步激发需求。

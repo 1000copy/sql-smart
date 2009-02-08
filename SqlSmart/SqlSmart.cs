@@ -59,7 +59,7 @@ namespace SqlSmart
             get 
             {
                 if (fields.ContainsKey(TableKeyName))
-                    return fields[TableKeyName] ;
+                    return fields[TableKeyName].Value ;
                 else
                     return null;
             }

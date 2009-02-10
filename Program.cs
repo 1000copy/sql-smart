@@ -5,6 +5,7 @@ using System.Reflection;
 using SqlSmart;
 using System.Data.SQLite;
 using System.Data.Common;
+using System.Data;
 
 
 namespace SqlSmartTest
@@ -29,6 +30,11 @@ namespace SqlSmartTest
                 sql = company.Person.Insert();
                 db.Exec(sql);
                 DbDataReader reader = db.Query(company.Person.SelectAll());
+                // TODO : 还可以优化，更加表意，用PersonList之类的
+                // testcase : 
+                // List<Person> list = new List<Person>();
+                // company.FillPersons() ->PersonList
+                // List<Person> CompanyDb.FillPersons(DbDataReader reader)
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -37,6 +43,7 @@ namespace SqlSmartTest
                         Console.WriteLine("name: " + reader.GetString(1));
                     }
                 }
+                // 优化区完成
             }
             catch(Exception ex)
             {

@@ -50,11 +50,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="test.mdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

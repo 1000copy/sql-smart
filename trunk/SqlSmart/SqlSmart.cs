@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using System;
 using System.Reflection;
+
 namespace SqlSmart
 {
     // 系统类
@@ -101,22 +102,60 @@ namespace SqlSmart
             get
             {
                 string r = "";
-                int i = 0;
+                
+                List<string> list = new List<string>();                
                 foreach (KeyValuePair<string, SSField> keyvalue in fields)
+                {   
+                    SSField field = keyvalue.Value;
+                    object obj = ((SSField)field).Value;
+                    if (obj != null)
+                    {
+                        if (field.FieldType == SSFieldType.Int)
+                        {
+                           list.Add(obj.ToString());
+                        }
+                        else if (field.FieldType == SSFieldType.String || field.FieldType == SSFieldType.DateTime)
+                        {
+                            string temp =  string.Format("'{0}'", field.Value.ToString());
+                            list.Add(temp);
+                        }
+                        else
+                            UnsupportException();                
+                    }
+                }
+                int i = 0;
+                foreach (string str in list)
                 {
                     i++;
+                    r += str;
+                    if (i != list.Count)
+                        r += ",";
+                }
+                return r;
+            }
+        }
+        public string FieldNamesWhichHasValue
+        {
+            get
+            {
+                string r = "";
+
+                List<string> list = new List<string>();
+                foreach (KeyValuePair<string, SSField> keyvalue in fields)
+                {
                     SSField field = keyvalue.Value;
-                    if (field.FieldType == SSFieldType.Int)
+                    object obj = ((SSField)field).Value;
+                    if (obj != null)
                     {
-                        r += ((SSField)field).Value.ToString();
+                        list.Add(keyvalue.Key);
                     }
-                    else if (field.FieldType == SSFieldType.String || field.FieldType == SSFieldType.DateTime)
-                    {
-                        r += string.Format("'{0}'", field.Value.ToString());
-                    }
-                    else 
-                        UnsupportException();
-                    if (i != fields.Keys.Count)
+                }
+                int i = 0;
+                foreach (string str in list)
+                {
+                    i++;
+                    r += str;
+                    if (i != list.Count)
                         r += ",";
                 }
                 return r;
@@ -152,7 +191,7 @@ namespace SqlSmart
         public string Insert()
         {
             string insertsql = "insert into {0} ({1}) values({2})";
-            return string.Format(insertsql, this, FieldNames, FieldValues);
+            return string.Format(insertsql, this, FieldNamesWhichHasValue, FieldValues);
         }
         public string Update()
         {

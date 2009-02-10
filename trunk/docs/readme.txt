@@ -28,7 +28,8 @@ sql-smart和Hibernite有类似之处，都是采用类表达数据库，不同的是，掌握后者需要一本
   (
     id int,
     DeptId int,
-    name varchar(10)
+    name varchar(10),
+	birthday datetime
   )
   create table Dept
   (

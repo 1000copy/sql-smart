@@ -14,10 +14,10 @@ namespace SqlSmartTest
         public Person Person = new Person();
         public CompanyDb()
         {
-            /*
-            Dept.InitFields();
-            Person.InitFields();
-             */
+        }
+        public override string ToString()
+        {
+            return "CompanyDb.db";
         }
     }
 

@@ -271,6 +271,7 @@ namespace SqlSmart
             SSApp.DbHelper.Exec(sql);
             return sql;
         }
+        // TODO : 移动到SSObjectList内，并且接口也是GetSql
         public DbDataReader SelectAll()
         {
             string sql =  "select " + FieldNames + " from " + this;

@@ -6,7 +6,7 @@ using System.Data.Common;
 
 namespace SqlSmart
 {
-    public class DbHelper
+    public class DbHelper : IDbHelper
     {
         SQLiteConnection conn = null;
         public DbHelper(string str)

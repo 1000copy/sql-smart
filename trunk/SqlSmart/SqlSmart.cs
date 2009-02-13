@@ -13,6 +13,32 @@ using System.Data.Common;
 namespace SqlSmart
 {
     // 系统类
+    public interface IDbHelper
+    {
+        int Exec(string sql);
+        DbDataReader QueryReader(string sql);
+    }
+    public class SSApp
+    {
+        static IDbHelper db = null;
+        static SSDatabase _database = null;
+        public static void RegisterDbHelper(IDbHelper dbhelper)
+        {
+            db = dbhelper;
+        }
+        public static IDbHelper DbHelper { get { return db; } }
+
+        public static void RegisterDatabase(SSDatabase database)
+        {
+            _database = database;
+        }
+        public static SSDatabase Database { get { return _database; } }
+    }
+    public abstract class SSQuery<SSObject> : SSObjectList<SSObject>
+    {
+        public  abstract string GetSql();
+        public abstract void Exec();
+    }
     public class SSObjectList<SSObject> : List<SSObject>
     {
         public void FromReader(DbDataReader reader)
@@ -224,7 +250,9 @@ namespace SqlSmart
         public string Insert()
         {
             string insertsql = "insert into {0} ({1}) values({2})";
-            return string.Format(insertsql, this, FieldNamesWhichHasValue, FieldValues);
+            insertsql = string.Format(insertsql, this, FieldNamesWhichHasValue, FieldValues);
+            SSApp.DbHelper.Exec(insertsql);
+            return insertsql;
         }
         public string Update()
         {
@@ -238,25 +266,34 @@ namespace SqlSmart
         }
         public string DeleteAll()
         {
-            string insertsql = "delete from {0} ";
-            return string.Format(insertsql, this);
+            string sql = "delete from {0} ";
+            sql = string.Format(sql, this);
+            SSApp.DbHelper.Exec(sql);
+            return sql;
         }
-        public string SelectAll()
+        public DbDataReader SelectAll()
         {
-
-            return "select " + FieldNames + " from " + this;
+            string sql =  "select " + FieldNames + " from " + this;
+            return SSApp.DbHelper.QueryReader(sql);
         }
     }
     public class SSDatabase
     {
         public SSDatabase()
         {
+            InitObjects();
+        }
+
+        public void InitObjects()
+        {
             // 找到所有SSTable类型的成员，并且调用它的InitFields 方法
             Type type = this.GetType();
             foreach (FieldInfo fi in type.GetFields())
             {
                 if (fi.FieldType.BaseType == typeof(SSObject))
+                {
                     (fi.GetValue(this) as SSObject).InitFields();
+                }
             }
         }
 

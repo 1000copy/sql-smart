@@ -15,6 +15,8 @@ namespace SqlSmartTest
         public Person Person = new Person();
         public CompanyDb()
         {
+           
+            
         }
         public override string ToString()
         {
@@ -25,6 +27,10 @@ namespace SqlSmartTest
     }
     public class DeptList : SSObjectList<Dept>
     {
+        internal void SelectAll()
+        {
+            this.FromReader((SSApp.Database as CompanyDb).Dept.SelectAll());
+        }
     }
     public class Dept : SSObject
     {
@@ -43,6 +49,10 @@ namespace SqlSmartTest
     
     public class PersonList : SSObjectList<Person>
     {
+        internal void SelectAll()
+        {
+            this.FromReader((SSApp.Database as CompanyDb).Person.SelectAll()); 
+        }
     }
     public class Person : SSObject
     {

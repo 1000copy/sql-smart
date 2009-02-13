@@ -12,65 +12,94 @@ namespace SqlSmartTest
 {
     class Program
     {
+        static CompanyDb companydb = new CompanyDb();
+        static DbHelper db = new DbHelper(companydb.ToString());
         static void Main(string[] args)
-        {
-            //SqliteConnTest();
-            SSVsSqliteConnTest();
-        }
-
-        private static void SSVsSqliteConnTest()
-        {
+        {            
             try
             {
-                CompanyDb company = new CompanyDb();
-                DbHelper db = new DbHelper(company.ToString());                
-                company.Person.Id.Value = 2;
-                company.Person.Name.Value = "sunqin";
-                string sql = "";
-                sql = company.Person.Insert();
-                db.Exec(sql);
-                DbDataReader reader = db.Query(company.Person.SelectAll());
-                // TODO : 还可以优化，更加表意，用PersonList之类的
-                // testcase : 
-                // List<Person> list = new List<Person>();
-                // company.FillPersons() ->PersonList
-                // List<Person> CompanyDb.FillPersons(DbDataReader reader)
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        Console.WriteLine("ID: " + reader.GetInt16(0));
-                        Console.WriteLine("name: " + reader.GetString(1));
-                    }
-                }
-                // 优化区完成
+                SSClear();
+                SSInsert();
+                SSSelect();
+                SSJoin();
+                //SqliteConnTest();
+                Console.In.ReadLine();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.Out.WriteLine(ex.Message);
             }
-            Console.In.ReadLine();
+
         }
-        public class DbHelper
+        private class QueriedPerson:SSObject
         {
-            SQLiteConnection conn = null;
-            public DbHelper(string str)
+            public SSField Id = null;
+            public SSField Name = null;
+            public SSField DeptName = null;
+            public QueriedPerson()
             {
-                conn = new SQLiteConnection("Data Source=" + str);
-                conn.Open();
+                Id = new SSField(this, "id", SSFieldType.Int, true);
+                Name = new SSField(this, "name", SSFieldType.String);
+                DeptName = new SSField(this, "DeptName", SSFieldType.String);
             }
-            public int Exec(string sql)
+        }
+    
+        private class QueriedPersons :SSObjectList<QueriedPerson>
+        {
+        }
+        private static void SSJoin()
+        {
+            string sql = "select Person.Id,Person.Name,Dept.Name as DeptName from person left join dept on person.deptid=dept.id";
+            DbDataReader reader = db.QueryReader(sql);
+            QueriedPersons personwithdepts = new QueriedPersons();
+            personwithdepts.FromReader(reader);
+            foreach (QueriedPerson person in personwithdepts)
             {
-                SQLiteCommand cmd = conn.CreateCommand();
-                cmd.CommandText = sql;
-                return cmd.ExecuteNonQuery();
+                string str = string.Format("id= {0},name={1},deptname={2}", person.Id.Value, person.Name.Value,person.DeptName.Value);
+                Console.Out.WriteLine(str);
             }
-            public DbDataReader Query(string sql)
+        }
+        private static void SSSelect()
+        {
+
             {
-                SQLiteCommand cmd = conn.CreateCommand();
-                cmd.CommandText = sql;
-                return cmd.ExecuteReader();
+                PersonList list = new PersonList();
+                list.FromReader(db.QueryReader(companydb.Person.SelectAll()));
+                foreach (Person person in list)
+                {
+                    string str = string.Format("id= {0},name={1}", person.Id.Value, person.Name.Value);
+                    Console.Out.WriteLine(str);
+                }
             }
+            {
+                DeptList list = new DeptList();
+                list.FromReader(db.QueryReader(companydb.Dept.SelectAll()));
+                foreach (Dept dept in list)
+                {
+                    string str = string.Format("id= {0},name={1}", dept.Id.Value, dept.Name.Value);
+                    Console.Out.WriteLine(str);
+                }
+            }           
+        }
+
+        private static void SSInsert()
+        {
+            companydb.Person.Id.Value = 1;
+            companydb.Person.Name.Value = "1000copy";
+            companydb.Person.DeptId.Value = 1;
+            db.Exec(companydb.Person.Insert());
+            companydb.Dept.Id.Value = 1;
+            companydb.Dept.Name.Value = "trd";
+            db.Exec(companydb.Dept.Insert());
+        }
+
+        private static void SSClear()
+        {
+            string sql = "";
+            sql = companydb.Person.DeleteAll();
+            db.Exec(sql);
+            sql = companydb.Dept.DeleteAll();
+            db.Exec(sql);
         }
         private static void SqliteConnTest()
         {
@@ -78,7 +107,7 @@ namespace SqlSmartTest
             {
                 DbHelper db = new DbHelper("Data Source=companydb.db");
                 db.Exec("INSERT INTO person(id,name) VALUES (1,'1000copy')");
-                DbDataReader reader = db.Query("SELECT ID, name FROM person");
+                DbDataReader reader = db.QueryReader("SELECT ID, name FROM person");
                 if (reader.HasRows)
                 {
                     while (reader.Read())

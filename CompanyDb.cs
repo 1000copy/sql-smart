@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SqlSmart;
 using System.Reflection;
+using System.Data.Common;
 
 
 namespace SqlSmartTest
@@ -19,9 +20,13 @@ namespace SqlSmartTest
         {
             return "CompanyDb.db";
         }
-    }
 
-    public class Dept : SSTable
+
+    }
+    public class DeptList : SSObjectList<Dept>
+    {
+    }
+    public class Dept : SSObject
     {
         public SSField Id = null;
         public SSField Name = null;
@@ -35,7 +40,11 @@ namespace SqlSmartTest
             Name = new SSField(this, "name",SSFieldType.String);             
         }
     }
-    public class Person : SSTable
+    
+    public class PersonList : SSObjectList<Person>
+    {
+    }
+    public class Person : SSObject
     {
         public SSField Id = null;
         public SSField Name = null;

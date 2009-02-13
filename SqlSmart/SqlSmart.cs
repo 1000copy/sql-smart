@@ -8,14 +8,47 @@
 using System.Collections.Generic;
 using System;
 using System.Reflection;
+using System.Data.Common;
 
 namespace SqlSmart
 {
     // 系统类
-    public class SSTable
+    public class SSObjectList<SSObject> : List<SSObject>
+    {
+        public void FromReader(DbDataReader reader)
+        {
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    SSObject tableobject = System.Activator.CreateInstance<SSObject>();
+                    Type type = tableobject.GetType();
+                    foreach (FieldInfo fi in type.GetFields())
+                    {
+
+                        if (fi.FieldType == typeof(SSField))
+                        {
+                            string fieldname = fi.Name;
+                            try
+                            {
+                                int fieldindex = reader.GetOrdinal(fieldname);
+                                SSField field = fi.GetValue(tableobject) as SSField;
+                                field.Value = reader.GetValue(fieldindex);
+                            }
+                            catch (IndexOutOfRangeException)
+                            {
+                            }
+                        }
+                    }
+                    this.Add(tableobject);
+                }
+            }
+        }
+    }
+    public class SSObject
     {
         public Dictionary<string, SSField> fields = null;
-        public SSTable()
+        public SSObject()
         {
             fields = new Dictionary<string, SSField>();
         }
@@ -203,6 +236,11 @@ namespace SqlSmart
             string insertsql = "delete from {0} where {1}={2}";
             return string.Format(insertsql, this, TableKeyName, TableKeyValue);
         }
+        public string DeleteAll()
+        {
+            string insertsql = "delete from {0} ";
+            return string.Format(insertsql, this);
+        }
         public string SelectAll()
         {
 
@@ -217,8 +255,8 @@ namespace SqlSmart
             Type type = this.GetType();
             foreach (FieldInfo fi in type.GetFields())
             {
-                if (fi.FieldType.BaseType == typeof(SSTable))
-                    (fi.GetValue(this) as SSTable).InitFields();
+                if (fi.FieldType.BaseType == typeof(SSObject))
+                    (fi.GetValue(this) as SSObject).InitFields();
             }
         }
 
@@ -227,7 +265,7 @@ namespace SqlSmart
     public class SSField
     {
         string _fieldname = null;
-        SSTable _ownerTable = null;
+        SSObject _ownerTable = null;
         private SSFieldType _fieldtype;
 
         public SSFieldType FieldType
@@ -244,12 +282,12 @@ namespace SqlSmart
         {
             return _ownerTable.ToString() + "." + FieldName;
         }
-        public SSField(SSTable table, string fieldname, SSFieldType fieldtype,bool iskey)
+        public SSField(SSObject table, string fieldname, SSFieldType fieldtype,bool iskey)
             : this(table, fieldname,fieldtype)
         {
             _iskey = iskey;
         }
-        public SSField(SSTable table, string fieldname,SSFieldType fieldtype)
+        public SSField(SSObject table, string fieldname,SSFieldType fieldtype)
         {
             _ownerTable = table;
             _fieldname = fieldname;

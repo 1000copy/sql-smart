@@ -11,7 +11,12 @@ namespace SqlSmartTest
     // 自动根据数据库来生成的内容
     public class CompanyApp : SLMApp
     {
-        public static CompanyDb CompanyDb
+        public CompanyApp()
+        {
+            CompanyDb companydb = new CompanyDb();
+            CreateApp(new DbHelper(companydb.ToString()), companydb);
+        }
+        public static  CompanyDb CompanyDb
         {
             get
             {

@@ -33,10 +33,10 @@ namespace SqlSmart
             _database = database;
         }
     }
-    public abstract class SSQuery<SSObject> : SSObjectList<SSObject>
+    public abstract class SSQuery<SSObject> : List<SSObject>
     {
         
-        public virtual void Exec()
+        public virtual void DoQuery()
         {
             DbDataReader reader = SSApp.DbHelper.QueryReader(GetSql());
             this.FromReader(reader);
@@ -54,17 +54,7 @@ namespace SqlSmart
             else
                 return default(SSObject);
         }
-    }
-    public class SSObjectList<SSObject> : List<SSObject>
-    {
-        public virtual void SelectAll()
-        {
-
-        }
-        protected virtual string GetSql()
-        {
-            return "";
-        }
+        protected abstract string GetSql();
         public void FromReader(DbDataReader reader)
         {
             if (reader.HasRows)
@@ -95,6 +85,7 @@ namespace SqlSmart
             }
         }
     }
+
     public class SSObject
     {
         public Dictionary<string, SSField> fields = null;
@@ -103,6 +94,14 @@ namespace SqlSmart
             fields = new Dictionary<string, SSField>();
         }
         // 把字段SSField加入fields
+        protected SSField CreateField(string fieldname, SSFieldType fieldtype, bool iskey)
+        {
+            return new SSField(this, fieldname, fieldtype, iskey);
+        }
+        protected SSField CreateField(string fieldname, SSFieldType fieldtype)
+        {
+            return new SSField(this, fieldname, fieldtype, false);
+        }
         public void InitFields()
         {
             Type type = this.GetType();

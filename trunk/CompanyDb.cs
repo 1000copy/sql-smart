@@ -29,20 +29,11 @@ namespace SqlSmartTest
             return "CompanyDb.db";
         }
     }
-    public class DeptList : SSObjectList<Dept>
+    public class DeptList : SSQuery<Dept>
     {
         protected override string GetSql()
         {
-            return   "select " +  " from " + this;
-        }
-
-        public override void SelectAll()
-        {
-            // TODO :可以优化？
-            string sql = CompanyApp.CompanyDb.Dept.SelectAllSql();
-            DbDataReader reader = SSApp.DbHelper.QueryReader(sql);
-            reader = SSApp.DbHelper.QueryReader(sql);
-            this.FromReader(reader);
+            return CompanyApp.CompanyDb.Dept.SelectAllSql();
         }
     }
     public class Dept : SSObject
@@ -59,16 +50,12 @@ namespace SqlSmartTest
             Name = new SSField(this, "name",SSFieldType.String);             
         }
     }
-    
-    public class PersonList : SSObjectList<Person>
+
+    public class PersonList : SSQuery<Person>
     {
-        public  override void SelectAll()
+        protected override string GetSql()
         {
-            // TODO :可以优化？
-            string sql = CompanyApp.CompanyDb.Person.SelectAllSql();
-            DbDataReader reader = SSApp.DbHelper.QueryReader(sql);
-            reader = SSApp.DbHelper.QueryReader(sql);
-            this.FromReader(reader);
+            return CompanyApp.CompanyDb.Person.SelectAllSql();
         }
     }
     public class Person : SSObject
@@ -83,10 +70,10 @@ namespace SqlSmartTest
         }
         public Person()
         {
-            Id = new SSField(this, "id",SSFieldType.Int,true);
-            Name = new SSField(this, "name",SSFieldType.String);
-            DeptId = new SSField(this, "deptid", SSFieldType.Int);
-            Birthday = new SSField(this, "birthday", SSFieldType.DateTime);
+            Id = CreateField( "id",SSFieldType.Int,true);
+            Name = CreateField("name", SSFieldType.String);
+            DeptId = CreateField("deptid", SSFieldType.Int);
+            Birthday = CreateField("birthday", SSFieldType.DateTime);
         }
     }
 }

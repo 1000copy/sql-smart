@@ -17,8 +17,6 @@ namespace SqlSmartTest
         static CompanyDb companydb = CompanyApp.CompanyDb;
         static void Main(string[] args)
         {
-            //SLMApp.CreateApp(new DbHelper(companydb.ToString()), companydb);
-  
             try
             {
                 TestClear();

@@ -12,10 +12,13 @@ namespace SqlSmartTest
 {
     class Program
     {
-        static CompanyDb companydb = new CompanyDb();
+        
+        static CompanyApp companyapp = new CompanyApp();
+        static CompanyDb companydb = CompanyApp.CompanyDb;
         static void Main(string[] args)
         {
-            SLMApp.CreateApp(new DbHelper(companydb.ToString()), companydb);
+            //SLMApp.CreateApp(new DbHelper(companydb.ToString()), companydb);
+  
             try
             {
                 TestClear();

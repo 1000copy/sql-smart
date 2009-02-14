@@ -7,7 +7,7 @@ using System.Data.SQLite;
 using System.Data.Common;
 using System.Data;
 
-
+// TODO : 支持别名，比如select d.name,p.name,p.id from person  p left join dept d on p.deptid = d.id where p.name ="lcj"
 namespace SqlSmartTest
 {
     class Program

@@ -13,6 +13,7 @@ namespace SqlSmartTest
     {
         public CompanyApp()
         {
+            //CompanyDb companydb = new CompanyDb(this);
             CompanyDb companydb = new CompanyDb();
             CreateApp(new DbHelper(companydb.ToString()), companydb);
         }
@@ -28,11 +29,15 @@ namespace SqlSmartTest
     {
         public Dept Dept = new Dept();
         public Person Person = new Person();
-
+       
         public override string ToString()
         {
             return "CompanyDb.db";
         }
+        /*
+        public CompanyDb(SLMApp app):base(app)
+        {
+        }*/
     }
     public class DeptList : SLMQuery<Dept>
     {

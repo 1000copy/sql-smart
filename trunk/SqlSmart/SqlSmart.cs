@@ -305,7 +305,7 @@ namespace SqlSmart
         {
             InitObjects();
         }
-
+        //protected  SLMApp _app = null;
         public void InitObjects()
         {
             // 找到所有SSTable类型的成员，并且调用它的InitFields 方法
@@ -317,7 +317,11 @@ namespace SqlSmart
                     (fi.GetValue(this) as SLMObject).InitFields();
                 }
             }
-        }
+        }/*
+        public SLMDatabase(SLMApp app)
+        {
+            _app = app;
+        }*/
 
     }
     public enum SLMFieldType { Int,String,DateTime};

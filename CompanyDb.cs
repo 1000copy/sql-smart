@@ -9,6 +9,16 @@ namespace SqlSmartTest
 {
 
     // 自动根据数据库来生成的内容
+    public class CompanyApp : SSApp
+    {
+        public static CompanyDb CompanyDb
+        {
+            get
+            {
+                return (Database as CompanyDb);
+            }
+        }
+    }
     public class CompanyDb : SSDatabase
     {
         public Dept Dept = new Dept();
@@ -27,9 +37,17 @@ namespace SqlSmartTest
     }
     public class DeptList : SSObjectList<Dept>
     {
-        internal void SelectAll()
+        protected override string GetSql()
         {
-            this.FromReader((SSApp.Database as CompanyDb).Dept.SelectAll());
+            return   "select " +  " from " + this;
+        }
+
+        public override void SelectAll()
+        {
+            string sql = (SSApp.Database as CompanyDb).Dept.SelectAllSql();
+            DbDataReader reader = SSApp.DbHelper.QueryReader(sql);
+            reader = SSApp.DbHelper.QueryReader(sql);
+            this.FromReader(reader);
         }
     }
     public class Dept : SSObject
@@ -49,9 +67,12 @@ namespace SqlSmartTest
     
     public class PersonList : SSObjectList<Person>
     {
-        internal void SelectAll()
+        public  override void SelectAll()
         {
-            this.FromReader((SSApp.Database as CompanyDb).Person.SelectAll()); 
+            string sql = CompanyApp.CompanyDb.Person.SelectAllSql();
+            DbDataReader reader = SSApp.DbHelper.QueryReader(sql);
+            reader = SSApp.DbHelper.QueryReader(sql);
+            this.FromReader(reader);
         }
     }
     public class Person : SSObject

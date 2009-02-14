@@ -12,35 +12,59 @@ using System.Data.Common;
 
 namespace SqlSmart
 {
-    // 系统类
     public interface IDbHelper
     {
         int Exec(string sql);
         DbDataReader QueryReader(string sql);
     }
+    
     public class SSApp
     {
-        static IDbHelper db = null;
-        static SSDatabase _database = null;
-        public static void RegisterDbHelper(IDbHelper dbhelper)
-        {
-            db = dbhelper;
-        }
-        public static IDbHelper DbHelper { get { return db; } }
+        private static IDbHelper _dbhelper = null;
+        private static SSDatabase _database = null;
 
-        public static void RegisterDatabase(SSDatabase database)
+        public static IDbHelper DbHelper { get { return _dbhelper; } }
+
+        public static SSDatabase Database { get { return _database; } }
+
+        public static void CreateApp(IDbHelper dbhelper, SSDatabase database)
         {
+            _dbhelper = dbhelper;
             _database = database;
         }
-        public static SSDatabase Database { get { return _database; } }
     }
     public abstract class SSQuery<SSObject> : SSObjectList<SSObject>
     {
-        public  abstract string GetSql();
-        public abstract void Exec();
+        
+        public virtual void Exec()
+        {
+            DbDataReader reader = SSApp.DbHelper.QueryReader(GetSql());
+            this.FromReader(reader);
+        }
+        public virtual SSObject ExecFirst()
+        {
+            DbDataReader reader = SSApp.DbHelper.QueryReader(GetSql());
+            FromReader(reader);
+            return First();
+        }
+        public virtual SSObject First()
+        {
+            if (this.Count > 0)
+                return this[0];
+            else
+                return default(SSObject);
+        }
     }
     public class SSObjectList<SSObject> : List<SSObject>
     {
+        public virtual void SelectAll()
+        {
+
+        }
+        protected virtual string GetSql()
+        {
+            return "";
+        }
         public void FromReader(DbDataReader reader)
         {
             if (reader.HasRows)
@@ -247,35 +271,33 @@ namespace SqlSmart
                 return r;
             }
         }
-        public string Insert()
+        public int Insert()
         {
-            string insertsql = "insert into {0} ({1}) values({2})";
-            insertsql = string.Format(insertsql, this, FieldNamesWhichHasValue, FieldValues);
-            SSApp.DbHelper.Exec(insertsql);
-            return insertsql;
+            string sql = "insert into {0} ({1}) values({2})";
+            sql = string.Format(sql, this, FieldNamesWhichHasValue, FieldValues);
+            return SSApp.DbHelper.Exec(sql);
         }
-        public string Update()
+        public int Update()
         {
-            string insertsql = "update {0} set {1} where {2}={3}";
-            return string.Format(insertsql, this, FieldEqualValues, TableKeyName, TableKeyValue);
+            string sql = "update {0} set {1} where {2}={3}";
+            sql = string.Format(sql, this, FieldEqualValues, TableKeyName, TableKeyValue);
+            return SSApp.DbHelper.Exec(sql);
         }
-        public string Delete()
+        public int Delete()
         {
-            string insertsql = "delete from {0} where {1}={2}";
-            return string.Format(insertsql, this, TableKeyName, TableKeyValue);
+            string sql = "delete from {0} where {1}={2}";
+            sql = string.Format(sql, this, TableKeyName, TableKeyValue);
+            return SSApp.DbHelper.Exec(sql);
         }
-        public string DeleteAll()
+        public int DeleteAll()
         {
             string sql = "delete from {0} ";
             sql = string.Format(sql, this);
-            SSApp.DbHelper.Exec(sql);
-            return sql;
+            return SSApp.DbHelper.Exec(sql);
         }
-        // TODO : 移动到SSObjectList内，并且接口也是GetSql
-        public DbDataReader SelectAll()
+        public string SelectAllSql()
         {
-            string sql =  "select " + FieldNames + " from " + this;
-            return SSApp.DbHelper.QueryReader(sql);
+            return  "select " + FieldNames + " from " + this;
         }
     }
     public class SSDatabase

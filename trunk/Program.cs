@@ -15,14 +15,14 @@ namespace SqlSmartTest
         static CompanyDb companydb = new CompanyDb();
         static void Main(string[] args)
         {
-            SSApp.RegisterDbHelper(new DbHelper(companydb.ToString()));
-            SSApp.RegisterDatabase(companydb);
+            SSApp.CreateApp(new DbHelper(companydb.ToString()), companydb);
             try
             {
                 SSClear();
                 SSInsert();
                 SSSelect();
                 SSJoin();
+                SSCount();
                 //SqliteConnTest();
                
             }
@@ -33,31 +33,15 @@ namespace SqlSmartTest
             Console.In.ReadLine();
 
         }
-        private class QueryPerson:SSObject
+
+        private static void SSCount()
         {
-            public SSField Id = null;
-            public SSField Name = null;
-            public SSField DeptName = null;
-            public QueryPerson()
-            {
-                Id = new SSField(this, "id", SSFieldType.Int, true);
-                Name = new SSField(this, "name", SSFieldType.String);
-                DeptName = new SSField(this, "DeptName", SSFieldType.String);
-            }
+            QueryPersonCounts counts = new QueryPersonCounts();
+            QueryPersonCount count = counts.ExecFirst();
+            string str = string.Format("count= {0}", count.Count.Value);
+            Console.Out.WriteLine(str);
         }
-    
-        private class QueryPersons :SSQuery<QueryPerson>
-        {
-            public override string GetSql()
-            {
-                return "select Person.Id,Person.Name,Dept.Name as DeptName from person left join dept on person.deptid=dept.id";
-            }
-            public override void Exec()
-            {
-                DbDataReader reader = SSApp.DbHelper.QueryReader(GetSql());
-                this.FromReader(reader);
-            }
-        }
+        
         private static void SSJoin()
         {
             QueryPersons persons = new QueryPersons();
@@ -70,26 +54,23 @@ namespace SqlSmartTest
         }
         private static void SSSelect()
         {
-
+            PersonList persons = new PersonList();
+            persons.SelectAll();
+                           
+            foreach (Person person in persons)
             {
-                PersonList list = new PersonList();
-                list.SelectAll();
-                               
-                foreach (Person person in list)
-                {
-                    string str = string.Format("id= {0},name={1}", person.Id.Value, person.Name.Value);
-                    Console.Out.WriteLine(str);
-                }
+                string str = string.Format("id= {0},name={1}", person.Id.Value, person.Name.Value);
+                Console.Out.WriteLine(str);
             }
+       
+            DeptList depts = new DeptList();
+            depts.SelectAll();
+            foreach (Dept dept in depts)
             {
-                DeptList list = new DeptList();
-                list.SelectAll();
-                foreach (Dept dept in list)
-                {
-                    string str = string.Format("id= {0},name={1}", dept.Id.Value, dept.Name.Value);
-                    Console.Out.WriteLine(str);
-                }
-            }           
+                string str = string.Format("id= {0},name={1}", dept.Id.Value, dept.Name.Value);
+                Console.Out.WriteLine(str);
+            }
+                      
         }
         private static void SSInsert()
         {

@@ -85,9 +85,8 @@ namespace SqlSmartTest
        
         private static void SSClear()
         {
-            string sql = "";
-            sql = companydb.Person.DeleteAll();
-            sql = companydb.Dept.DeleteAll();
+            companydb.Person.DeleteAll();
+            companydb.Dept.DeleteAll();
         }
 
         /*

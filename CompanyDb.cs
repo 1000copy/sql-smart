@@ -23,17 +23,11 @@ namespace SqlSmartTest
     {
         public Dept Dept = new Dept();
         public Person Person = new Person();
-        public CompanyDb()
-        {
-           
-            
-        }
+
         public override string ToString()
         {
             return "CompanyDb.db";
         }
-
-
     }
     public class DeptList : SSObjectList<Dept>
     {
@@ -44,7 +38,8 @@ namespace SqlSmartTest
 
         public override void SelectAll()
         {
-            string sql = (SSApp.Database as CompanyDb).Dept.SelectAllSql();
+            // TODO :可以优化？
+            string sql = CompanyApp.CompanyDb.Dept.SelectAllSql();
             DbDataReader reader = SSApp.DbHelper.QueryReader(sql);
             reader = SSApp.DbHelper.QueryReader(sql);
             this.FromReader(reader);
@@ -69,6 +64,7 @@ namespace SqlSmartTest
     {
         public  override void SelectAll()
         {
+            // TODO :可以优化？
             string sql = CompanyApp.CompanyDb.Person.SelectAllSql();
             DbDataReader reader = SSApp.DbHelper.QueryReader(sql);
             reader = SSApp.DbHelper.QueryReader(sql);

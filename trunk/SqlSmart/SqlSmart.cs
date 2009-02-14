@@ -18,41 +18,41 @@ namespace SqlSmart
         DbDataReader QueryReader(string sql);
     }
     
-    public class SSApp
+    public class SLMApp
     {
         private static IDbHelper _dbhelper = null;
-        private static SSDatabase _database = null;
+        private static SLMDatabase _database = null;
 
         public static IDbHelper DbHelper { get { return _dbhelper; } }
 
-        public static SSDatabase Database { get { return _database; } }
+        public static SLMDatabase Database { get { return _database; } }
 
-        public static void CreateApp(IDbHelper dbhelper, SSDatabase database)
+        public static void CreateApp(IDbHelper dbhelper, SLMDatabase database)
         {
             _dbhelper = dbhelper;
             _database = database;
         }
     }
-    public abstract class SSQuery<SSObject> : List<SSObject>
+    public abstract class SLMQuery<DbTable> : List<DbTable>
     {
         
         public virtual void DoQuery()
         {
-            DbDataReader reader = SSApp.DbHelper.QueryReader(GetSql());
+            DbDataReader reader = SLMApp.DbHelper.QueryReader(GetSql());
             this.FromReader(reader);
         }
-        public virtual SSObject ExecFirst()
+        public virtual DbTable ExecFirst()
         {
-            DbDataReader reader = SSApp.DbHelper.QueryReader(GetSql());
+            DbDataReader reader = SLMApp.DbHelper.QueryReader(GetSql());
             FromReader(reader);
             return First();
         }
-        public virtual SSObject First()
+        public virtual DbTable First()
         {
             if (this.Count > 0)
                 return this[0];
             else
-                return default(SSObject);
+                return default(DbTable);
         }
         protected abstract string GetSql();
         public void FromReader(DbDataReader reader)
@@ -61,18 +61,18 @@ namespace SqlSmart
             {
                 while (reader.Read())
                 {
-                    SSObject tableobject = System.Activator.CreateInstance<SSObject>();
+                    DbTable tableobject = System.Activator.CreateInstance<DbTable>();
                     Type type = tableobject.GetType();
                     foreach (FieldInfo fi in type.GetFields())
                     {
 
-                        if (fi.FieldType == typeof(SSField))
+                        if (fi.FieldType == typeof(SLMField))
                         {
                             string fieldname = fi.Name;
                             try
                             {
                                 int fieldindex = reader.GetOrdinal(fieldname);
-                                SSField field = fi.GetValue(tableobject) as SSField;
+                                SLMField field = fi.GetValue(tableobject) as SLMField;
                                 field.Value = reader.GetValue(fieldindex);
                             }
                             catch (IndexOutOfRangeException)
@@ -86,21 +86,21 @@ namespace SqlSmart
         }
     }
 
-    public class SSObject
+    public class SLMObject
     {
-        public Dictionary<string, SSField> fields = null;
-        public SSObject()
+        public Dictionary<string, SLMField> fields = null;
+        public SLMObject()
         {
-            fields = new Dictionary<string, SSField>();
+            fields = new Dictionary<string, SLMField>();
         }
         // 把字段SSField加入fields
-        protected SSField CreateField(string fieldname, SSFieldType fieldtype, bool iskey)
+        protected SLMField CreateField(string fieldname, SLMFieldType fieldtype, bool iskey)
         {
-            return new SSField(this, fieldname, fieldtype, iskey);
+            return new SLMField(this, fieldname, fieldtype, iskey);
         }
-        protected SSField CreateField(string fieldname, SSFieldType fieldtype)
+        protected SLMField CreateField(string fieldname, SLMFieldType fieldtype)
         {
-            return new SSField(this, fieldname, fieldtype, false);
+            return new SLMField(this, fieldname, fieldtype, false);
         }
         public void InitFields()
         {
@@ -108,13 +108,13 @@ namespace SqlSmart
             foreach (FieldInfo fi in type.GetFields())
             {
                 if (IsSupportFieldType(fi.FieldType))               
-                    fields.Add(fi.Name.ToLower(), (SSField)(fi.GetValue(this)));                
+                    fields.Add(fi.Name.ToLower(), (SLMField)(fi.GetValue(this)));                
             }
             // end
         }
         private bool IsSupportFieldType(Type fieldtype)
         {
-            return fieldtype == typeof(SSField);
+            return fieldtype == typeof(SLMField);
         }
         private void UnsupportException ()
         {
@@ -129,10 +129,10 @@ namespace SqlSmart
         {
             get
             {
-                foreach (KeyValuePair<string, SSField> keyvalue in fields)
+                foreach (KeyValuePair<string, SLMField> keyvalue in fields)
                 {
                     string key = keyvalue.Key;
-                    SSField value = keyvalue.Value;
+                    SLMField value = keyvalue.Value;
                     if (value.IsKey) return key;
                 }
                 return "";
@@ -186,17 +186,17 @@ namespace SqlSmart
                 string r = "";
                 
                 List<string> list = new List<string>();                
-                foreach (KeyValuePair<string, SSField> keyvalue in fields)
+                foreach (KeyValuePair<string, SLMField> keyvalue in fields)
                 {   
-                    SSField field = keyvalue.Value;
-                    object obj = ((SSField)field).Value;
+                    SLMField field = keyvalue.Value;
+                    object obj = ((SLMField)field).Value;
                     if (obj != null)
                     {
-                        if (field.FieldType == SSFieldType.Int)
+                        if (field.FieldType == SLMFieldType.Int)
                         {
                            list.Add(obj.ToString());
                         }
-                        else if (field.FieldType == SSFieldType.String || field.FieldType == SSFieldType.DateTime)
+                        else if (field.FieldType == SLMFieldType.String || field.FieldType == SLMFieldType.DateTime)
                         {
                             string temp =  string.Format("'{0}'", field.Value.ToString());
                             list.Add(temp);
@@ -223,10 +223,10 @@ namespace SqlSmart
                 string r = "";
 
                 List<string> list = new List<string>();
-                foreach (KeyValuePair<string, SSField> keyvalue in fields)
+                foreach (KeyValuePair<string, SLMField> keyvalue in fields)
                 {
-                    SSField field = keyvalue.Value;
-                    object obj = ((SSField)field).Value;
+                    SLMField field = keyvalue.Value;
+                    object obj = ((SLMField)field).Value;
                     if (obj != null)
                     {
                         list.Add(keyvalue.Key);
@@ -249,16 +249,16 @@ namespace SqlSmart
             {
                 string r = "";
                 int i = 0;
-                foreach (KeyValuePair<string, SSField> keyvalue in fields)
+                foreach (KeyValuePair<string, SLMField> keyvalue in fields)
                 {
                     i++;
-                    SSField field = keyvalue.Value;
+                    SLMField field = keyvalue.Value;
                     CheckSupportFieldType(field.GetType());
-                    if (field.FieldType == SSFieldType.Int)
+                    if (field.FieldType == SLMFieldType.Int)
                     {
                         r += string.Format("{0}={1}", field.FieldName, field.Value.ToString());
                     }
-                    else if (field.FieldType == SSFieldType.String)
+                    else if (field.FieldType == SLMFieldType.String)
                     {
                         r += string.Format("{0}='{1}'", field.FieldName, field.Value.ToString());
                     }
@@ -274,34 +274,34 @@ namespace SqlSmart
         {
             string sql = "insert into {0} ({1}) values({2})";
             sql = string.Format(sql, this, FieldNamesWhichHasValue, FieldValues);
-            return SSApp.DbHelper.Exec(sql);
+            return SLMApp.DbHelper.Exec(sql);
         }
         public int Update()
         {
             string sql = "update {0} set {1} where {2}={3}";
             sql = string.Format(sql, this, FieldEqualValues, TableKeyName, TableKeyValue);
-            return SSApp.DbHelper.Exec(sql);
+            return SLMApp.DbHelper.Exec(sql);
         }
         public int Delete()
         {
             string sql = "delete from {0} where {1}={2}";
             sql = string.Format(sql, this, TableKeyName, TableKeyValue);
-            return SSApp.DbHelper.Exec(sql);
+            return SLMApp.DbHelper.Exec(sql);
         }
         public int DeleteAll()
         {
             string sql = "delete from {0} ";
             sql = string.Format(sql, this);
-            return SSApp.DbHelper.Exec(sql);
+            return SLMApp.DbHelper.Exec(sql);
         }
         public string SelectAllSql()
         {
             return  "select " + FieldNames + " from " + this;
         }
     }
-    public class SSDatabase
+    public class SLMDatabase
     {
-        public SSDatabase()
+        public SLMDatabase()
         {
             InitObjects();
         }
@@ -312,22 +312,22 @@ namespace SqlSmart
             Type type = this.GetType();
             foreach (FieldInfo fi in type.GetFields())
             {
-                if (fi.FieldType.BaseType == typeof(SSObject))
+                if (fi.FieldType.BaseType == typeof(SLMObject))
                 {
-                    (fi.GetValue(this) as SSObject).InitFields();
+                    (fi.GetValue(this) as SLMObject).InitFields();
                 }
             }
         }
 
     }
-    public enum SSFieldType { Int,String,DateTime};
-    public class SSField
+    public enum SLMFieldType { Int,String,DateTime};
+    public class SLMField
     {
         string _fieldname = null;
-        SSObject _ownerTable = null;
-        private SSFieldType _fieldtype;
+        SLMObject _ownerTable = null;
+        private SLMFieldType _fieldtype;
 
-        public SSFieldType FieldType
+        public SLMFieldType FieldType
         {
             get { return _fieldtype; }
             set { _fieldtype = value; }
@@ -341,12 +341,12 @@ namespace SqlSmart
         {
             return _ownerTable.ToString() + "." + FieldName;
         }
-        public SSField(SSObject table, string fieldname, SSFieldType fieldtype,bool iskey)
+        public SLMField(SLMObject table, string fieldname, SLMFieldType fieldtype,bool iskey)
             : this(table, fieldname,fieldtype)
         {
             _iskey = iskey;
         }
-        public SSField(SSObject table, string fieldname,SSFieldType fieldtype)
+        public SLMField(SLMObject table, string fieldname,SLMFieldType fieldtype)
         {
             _ownerTable = table;
             _fieldname = fieldname;

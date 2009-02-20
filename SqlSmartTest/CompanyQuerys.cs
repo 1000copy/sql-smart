@@ -21,7 +21,7 @@ namespace SqlSmartTest
 
     public class QueryPersons : SLMQuery<QueryPerson>
     {
-        // TODO : 实例化
+        // DONE : 实例化
         CompanyApp CompanyApp {get{return SLMApp as CompanyApp;}}
         protected override string GetSql()
         {

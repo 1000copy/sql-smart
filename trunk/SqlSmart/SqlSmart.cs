@@ -20,14 +20,11 @@ namespace SqlSmart
     
     public class SLMApp
     {
-        private static IDbHelper _dbhelper = null;
-        private static SLMDatabase _database = null;
-
-        public static IDbHelper DbHelper { get { return _dbhelper; } }
-
-        public static SLMDatabase Database { get { return _database; } }
-
-        public static void CreateApp(IDbHelper dbhelper, SLMDatabase database)
+        private  IDbHelper _dbhelper = null;
+        private  SLMDatabase _database = null;
+        public  IDbHelper DbHelper { get { return _dbhelper; } }
+        public  SLMDatabase Database { get { return _database; } }
+        public void CreateApp(IDbHelper dbhelper, SLMDatabase database)
         {
             _dbhelper = dbhelper;
             _database = database;
@@ -35,7 +32,12 @@ namespace SqlSmart
     }
     public abstract class SLMQuery<DbTable> : List<DbTable>
     {
-        
+        // TODO  需要赋值
+        public SLMApp SLMApp = null;
+        public SLMQuery(SLMApp app)
+        {
+            SLMApp = app;
+        }
         public virtual void DoQuery()
         {
             DbDataReader reader = SLMApp.DbHelper.QueryReader(GetSql());
@@ -55,13 +57,17 @@ namespace SqlSmart
                 return default(DbTable);
         }
         protected abstract string GetSql();
+        private DbTable CreateDbTable(SLMApp App)
+        {
+            return (DbTable)System.Activator.CreateInstance(typeof(DbTable), new object[] { App });
+        }
         public void FromReader(DbDataReader reader)
         {
             if (reader.HasRows)
             {
                 while (reader.Read())
                 {
-                    DbTable tableobject = System.Activator.CreateInstance<DbTable>();
+                    DbTable tableobject = CreateDbTable(SLMApp) ;
                     Type type = tableobject.GetType();
                     foreach (FieldInfo fi in type.GetFields())
                     {
@@ -89,7 +95,7 @@ namespace SqlSmart
     public class SLMObject
     {
         public Dictionary<string, SLMField> fields = null;
-        public SLMObject()
+        private SLMObject()
         {
             fields = new Dictionary<string, SLMField>();
         }
@@ -270,6 +276,12 @@ namespace SqlSmart
                 return r;
             }
         }
+        // TODO  需要赋值
+        public SLMApp SLMApp = null;
+        public SLMObject(SLMApp app):this()
+        {
+            SLMApp = app;
+        }
         public int Insert()
         {
             string sql = "insert into {0} ({1}) values({2})";
@@ -303,9 +315,15 @@ namespace SqlSmart
     {
         private SLMDatabase()
         {
-            InitObjects();
+            //InitObjects();
         }
-        protected  SLMApp _app = null;
+        private SLMApp _app = null;
+
+        protected SLMApp App
+        {
+            get { return _app; }
+            set { _app = value; }
+        }
         public void InitObjects()
         {
             // 找到所有SSTable类型的成员，并且调用它的InitFields 方法

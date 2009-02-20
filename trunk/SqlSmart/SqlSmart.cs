@@ -32,7 +32,7 @@ namespace SqlSmart
     }
     public abstract class SLMQuery<DbTable> : List<DbTable>
     {
-        // TODO  需要赋值
+        // DONE 需要赋值
         public SLMApp SLMApp = null;
         public SLMQuery(SLMApp app)
         {
@@ -276,7 +276,7 @@ namespace SqlSmart
                 return r;
             }
         }
-        // TODO  需要赋值
+        // DONE  需要赋值
         public SLMApp SLMApp = null;
         public SLMObject(SLMApp app):this()
         {

@@ -13,11 +13,10 @@ namespace SqlSmartTest
     {
         public CompanyApp()
         {
-            CompanyDb companydb = new CompanyDb(this);
-            //CompanyDb companydb = new CompanyDb();
+            CompanyDb companydb = new CompanyDb(this);            
             CreateApp(new DbHelper(companydb.ToString()), companydb);
         }
-        public static  CompanyDb CompanyDb
+        public  CompanyDb CompanyDb
         {
             get
             {
@@ -27,24 +26,36 @@ namespace SqlSmartTest
     }
     public class CompanyDb : SLMDatabase
     {
-        public Dept Dept = new Dept();
-        public Person Person = new Person();
+        public Dept Dept = null ;
+        public Person Person = null;
        
         public override string ToString()
         {
             return "CompanyDb.db";
         }
         
-        public CompanyDb(SLMApp app):base(app)
+        public CompanyDb(CompanyApp app):base(app)
         {
+            Dept = new Dept(app);
+            Person = new Person(app);
+            InitObjects();
+        }
+        public CompanyApp CompanyApp 
+        {
+            get { return App as CompanyApp; }
         }
 
     }
     public class DeptList : SLMQuery<Dept>
     {
+        CompanyApp CompanyApp { get { return SLMApp as CompanyApp; } }
         protected override string GetSql()
         {
             return CompanyApp.CompanyDb.Dept.SelectAllSql();
+        }
+        public DeptList(CompanyApp app)
+            : base(app)
+        {
         }
     }
     public class Dept : SLMObject
@@ -55,7 +66,8 @@ namespace SqlSmartTest
         {
             return "Dept";
         }
-        public Dept()
+        public Dept(CompanyApp app)
+            : base(app)
         {
             Id = new SLMField(this, "id",SLMFieldType.Int,true);
             Name = new SLMField(this, "name",SLMFieldType.String);             
@@ -64,10 +76,12 @@ namespace SqlSmartTest
 
     public class PersonList : SLMQuery<Person>
     {
+        CompanyApp CompanyApp { get { return SLMApp as CompanyApp; } }
         protected override string GetSql()
         {
             return CompanyApp.CompanyDb.Person.SelectAllSql();
         }
+        public PersonList(CompanyApp app) : base(app) { }
     }
     public class Person : SLMObject
     {
@@ -79,7 +93,7 @@ namespace SqlSmartTest
         {
             return "Person";
         }
-        public Person()
+        public Person(CompanyApp app):base(app)
         {
             Id = CreateField( "id",SLMFieldType.Int,true);
             Name = CreateField("name", SLMFieldType.String);

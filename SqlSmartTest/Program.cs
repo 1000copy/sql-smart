@@ -11,10 +11,9 @@ using System.Data;
 namespace SqlSmartTest
 {
     class Program
-    {
-        
+    {        
         static CompanyApp companyapp = new CompanyApp();
-        static CompanyDb companydb = CompanyApp.CompanyDb;
+        static CompanyDb companydb = companyapp.CompanyDb;
         static void Main(string[] args)
         {
             try
@@ -32,12 +31,22 @@ namespace SqlSmartTest
                 Console.Out.WriteLine(ex.Message);
             }
             Console.In.ReadLine();
-
+        }        
+        private static void TestJoin()
+        {
+            QueryPersons persons = new QueryPersons(companyapp);
+            persons.DoQuery();
+            Console.Out.WriteLine("By TestJoin-----");
+            foreach (QueryPerson person in persons)
+            {
+                string str = string.Format("id= {0},name={1},deptname={2}", person.Id.Value, person.Name.Value,person.DeptName.Value);
+                Console.Out.WriteLine(str);
+            }
         }
-
+        
         private static void TestSelectCond()
         {
-            QueryPersonsByName persons = new QueryPersonsByName("welle");
+            QueryPersonsByName persons = new QueryPersonsByName(companyapp,"welle");
             persons.DoQuery();
             Console.Out.WriteLine("By TestSelectCond-----");
             foreach (QueryPerson person in persons)
@@ -49,26 +58,14 @@ namespace SqlSmartTest
 
         private static void TestCount()
         {
-            QueryPersonCounts counts = new QueryPersonCounts();
+            QueryPersonCounts counts = new QueryPersonCounts(companyapp);
             QueryPersonCount count = counts.ExecFirst();
             string str = string.Format("count= {0}", count.Count.Value);
             Console.Out.WriteLine(str);
         }
-        
-        private static void TestJoin()
-        {
-            QueryPersons persons = new QueryPersons();
-            persons.DoQuery();
-            Console.Out.WriteLine("By TestJoin-----");
-            foreach (QueryPerson person in persons)
-            {
-                string str = string.Format("id= {0},name={1},deptname={2}", person.Id.Value, person.Name.Value,person.DeptName.Value);
-                Console.Out.WriteLine(str);
-            }
-        }
         private static void TestSelect()
         {
-            PersonList persons = new PersonList();
+            PersonList persons = new PersonList(companyapp);
             persons.DoQuery();
                            
             foreach (Person person in persons)
@@ -77,7 +74,7 @@ namespace SqlSmartTest
                 Console.Out.WriteLine(str);
             }
        
-            DeptList depts = new DeptList();
+            DeptList depts = new DeptList(companyapp);
             depts.DoQuery();
             foreach (Dept dept in depts)
             {
@@ -98,13 +95,13 @@ namespace SqlSmartTest
             companydb.Person.Insert();
             companydb.Dept.Id.Value = 1;
             companydb.Dept.Name.Value = "trd";
-            companydb.Dept.Insert();            
+            companydb.Dept.Insert();          
         }
        
         private static void TestClear()
         {
             companydb.Person.DeleteAll();
             companydb.Dept.DeleteAll();
-        }
+        }        
     }
 }

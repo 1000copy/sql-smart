@@ -382,15 +382,24 @@ namespace SqlSmart
         }
         public string FieldName
         {
-            get { return _fieldname; }
+            get {
+                if (!_ownerTable.UseAlias)
+                    return string.Format("{0}.{1}", _ownerTable, _fieldname);
+                else
+                    return string.Format("{0}.{1}", _ownerTable.Alias, _fieldname);
+            }
             set { _fieldname = value; }
         }
         public override string ToString()
         {
+            /*
             if (!_ownerTable.UseAlias)
                 return _ownerTable.ToString() + "." + FieldName;
             else
                 return _ownerTable.Alias + "." + FieldName;
+             */
+            // TODO : 判断是否可以转换
+            return Value.ToString();
         }
         public SLMField(SLMObject table, string fieldname, SLMFieldType fieldtype,bool iskey)
             : this(table, fieldname,fieldtype)

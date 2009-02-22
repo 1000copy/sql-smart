@@ -55,7 +55,6 @@ namespace SqlSmartTest
             QueryPersonsAlias persons = new QueryPersonsAlias(companyapp);
             persons.DoQuery();
             Console.Out.WriteLine("By TestSelectAlias-----");
-            Console.Out.WriteLine("By TestJoin-----");
             foreach (QueryPerson person in persons)
             {
                 string str = string.Format("id= {0},name={1},deptname={2}", person.Id.Value, person.Name.Value, person.DeptName.Value);

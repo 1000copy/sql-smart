@@ -112,6 +112,13 @@ namespace SqlSmart
             get { return _userAlias; }
             set { _userAlias = value; }
         }
+        private bool _useTablePrefix = true;
+
+        public bool UseTablePrefix
+        {
+            get { return _useTablePrefix; }
+            set { _useTablePrefix = value; }
+        }
 
         private SLMObject()
 
@@ -289,11 +296,11 @@ namespace SqlSmart
                     CheckSupportFieldType(field.GetType());
                     if (field.FieldType == SLMFieldType.Int)
                     {
-                        r += string.Format("{0}={1}", field.FieldName, field.Value.ToString());
+                        r += string.Format("{0}={1}", field.FieldNameWithPrefix, field.Value.ToString());
                     }
                     else if (field.FieldType == SLMFieldType.String)
                     {
-                        r += string.Format("{0}='{1}'", field.FieldName, field.Value.ToString());
+                        r += string.Format("{0}='{1}'", field.FieldNameWithPrefix, field.Value.ToString());
                     }
                     else
                         UnsupportException();
@@ -382,13 +389,25 @@ namespace SqlSmart
             get { return _fieldtype; }
             set { _fieldtype = value; }
         }
-        public string FieldName
+        public string FieldNameWithPrefix
         {
             get {
-                if (!_ownerTable.UseAlias)
-                    return string.Format("{0}.{1}", _ownerTable, _fieldname);
+                if (!_ownerTable.UseTablePrefix)
+                    return _fieldname;
                 else
-                    return string.Format("{0}.{1}", _ownerTable.Alias, _fieldname);
+                {
+                    if (!_ownerTable.UseAlias)
+                        return string.Format("{0}.{1}", _ownerTable, _fieldname);
+                    else
+                        return string.Format("{0}.{1}", _ownerTable.Alias, _fieldname);
+                }
+            }
+        }
+        public string FieldName
+        {
+            get
+            {                
+              return _fieldname;             
             }
             set { _fieldname = value; }
         }

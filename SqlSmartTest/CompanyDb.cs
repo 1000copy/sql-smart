@@ -62,7 +62,7 @@ namespace SqlSmartTest
     {
         public SLMField Id = null;
         public SLMField Name = null;
-        public override string ToString()
+        public override string GetTableName()
         {
             return "Dept";
         }
@@ -89,10 +89,11 @@ namespace SqlSmartTest
         public SLMField Name = null;
         public SLMField DeptId = null;
         public SLMField Birthday = null;
-        public override string ToString()
+        public override string GetTableName()
         {
             return "Person";
         }
+
         public Person(CompanyApp app):base(app)
         {
             Id = CreateField( "id",SLMFieldType.Int,true);

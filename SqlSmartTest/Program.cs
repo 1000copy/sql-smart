@@ -24,8 +24,7 @@ namespace SqlSmartTest
                 TestJoin();
                 TestCount();
                 TestSelectCond();
-                TestSelectAlias1();
-                TestSelectAlias2();
+                TestSelectAlias();
                 //TestSqlite.SqliteConnTest();
             }
             catch (Exception ex)
@@ -46,33 +45,20 @@ namespace SqlSmartTest
             }
         }
         
-        private static void TestSelectAlias1()
+
+        private static void TestSelectAlias()
         {
             // 效果1
             //string sql = "select * from person p left join dept d on p.deptid=d.id";
             // 效果2
             //string sql = "select p.name,p.id,d.name as deptname from person p left join dept d on p.deptid=d.id";
-            QueryPersonsAlias1 persons = new QueryPersonsAlias1();
+            QueryPersonsAlias persons = new QueryPersonsAlias(companyapp);
             persons.DoQuery();
-            Console.Out.WriteLine("By TestSelectAlias1-----");
+            Console.Out.WriteLine("By TestSelectAlias-----");
+            Console.Out.WriteLine("By TestJoin-----");
             foreach (QueryPerson person in persons)
             {
-                string str = string.Format("id= {0},name={1}", person.Id.Value, person.Name.Value);
-                Console.Out.WriteLine(str);
-            }
-        }
-        private static void TestSelectAlias2()
-        {
-            // 效果1
-            //string sql = "select * from person p left join dept d on p.deptid=d.id";
-            // 效果2
-            //string sql = "select p.name,p.id,d.name as deptname from person p left join dept d on p.deptid=d.id";
-            QueryPersonsAlias2 persons = new QueryPersonsAlias2();
-            persons.DoQuery();
-            Console.Out.WriteLine("By TestSelectAlias2-----");
-            foreach (QueryPerson person in persons)
-            {
-                string str = string.Format("id= {0},name={1}", person.Id.Value, person.Name.Value);
+                string str = string.Format("id= {0},name={1},deptname={2}", person.Id.Value, person.Name.Value, person.DeptName.Value);
                 Console.Out.WriteLine(str);
             }
         }

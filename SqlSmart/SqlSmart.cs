@@ -69,16 +69,18 @@ namespace SqlSmart
                 {
                     DbTable tableobject = CreateDbTable(SLMApp) ;
                     Type type = tableobject.GetType();
-                    foreach (FieldInfo fi in type.GetFields())
+                    //foreach (FieldInfo fi in type.GetFields())
+                    foreach (PropertyInfo fi in type.GetProperties())
                     {
 
-                        if (fi.FieldType == typeof(SLMField))
+                        //if (fi.FieldType == typeof(SLMField))
+                        if (fi.PropertyType == typeof(SLMField))
                         {
                             string fieldname = fi.Name;
                             try
                             {
                                 int fieldindex = reader.GetOrdinal(fieldname);
-                                SLMField field = fi.GetValue(tableobject) as SLMField;
+                                SLMField field = fi.GetValue(tableobject,null) as SLMField;
                                 field.Value = reader.GetValue(fieldindex);
                             }
                             catch (IndexOutOfRangeException)
@@ -136,10 +138,10 @@ namespace SqlSmart
         public void InitFields()
         {
             Type type = this.GetType();
-            foreach (FieldInfo fi in type.GetFields())
+            foreach (PropertyInfo fi in type.GetProperties())
             {
-                if (IsSupportFieldType(fi.FieldType))               
-                    fields.Add(fi.Name.ToLower(), (SLMField)(fi.GetValue(this)));                
+                if (IsSupportFieldType(fi.PropertyType))               
+                    fields.Add(fi.Name.ToLower(), (SLMField)(fi.GetValue(this,null)));                
             }
             // end
         }
@@ -353,11 +355,11 @@ namespace SqlSmart
         {
             // 找到所有SSTable类型的成员，并且调用它的InitFields 方法
             Type type = this.GetType();
-            foreach (FieldInfo fi in type.GetFields())
+            foreach (PropertyInfo fi in type.GetProperties())
             {
-                if (fi.FieldType.BaseType == typeof(SLMObject))
+                if (fi.PropertyType.BaseType == typeof(SLMObject))
                 {
-                    (fi.GetValue(this) as SLMObject).InitFields();
+                    (fi.GetValue(this,null) as SLMObject).InitFields();
                 }
             }
         }

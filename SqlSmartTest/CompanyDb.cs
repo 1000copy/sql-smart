@@ -26,8 +26,20 @@ namespace SqlSmartTest
     }
     public class CompanyDb : SLMDatabase
     {
-        public Dept Dept = null ;
-        public Person Person = null;
+        private Dept _dept = null;
+
+        public Dept Dept
+        {
+            get { return _dept; }
+            set { _dept = value; }
+        }
+        private Person _person = null;
+
+        public Person Person
+        {
+            get { return _person; }
+            set { _person = value; }
+        }
        
         public override string ToString()
         {
@@ -60,8 +72,20 @@ namespace SqlSmartTest
     }
     public class Dept : SLMObject
     {
-        public SLMField Id = null;
-        public SLMField Name = null;
+        private SLMField _id = null;
+
+        public SLMField Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+        private SLMField _name = null;
+
+        public SLMField Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
         public override string GetTableName()
         {
             return "Dept";
@@ -85,10 +109,34 @@ namespace SqlSmartTest
     }
     public class Person : SLMObject
     {
-        public SLMField Id = null;
-        public SLMField Name = null;
-        public SLMField DeptId = null;
-        public SLMField Birthday = null;
+        private SLMField _id = null;
+
+        public SLMField Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+        private SLMField _name = null;
+
+        public SLMField Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+        private SLMField _deptId = null;
+
+        public SLMField DeptId
+        {
+            get { return _deptId; }
+            set { _deptId = value; }
+        }
+        private SLMField _birthday = null;
+
+        public SLMField Birthday
+        {
+            get { return _birthday; }
+            set { _birthday = value; }
+        }
         public override string GetTableName()
         {
             return "Person";

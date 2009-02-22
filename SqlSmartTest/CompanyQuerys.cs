@@ -8,9 +8,27 @@ namespace SqlSmartTest
 {
     public class QueryPerson : SLMObject
     {
-        public SLMField Id = null;
-        public SLMField Name = null;
-        public SLMField DeptName = null;
+        private SLMField _id = null;
+
+        public SLMField Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+        private SLMField _name = null;
+
+        public SLMField Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+        private SLMField _deptName = null;
+
+        public SLMField DeptName
+        {
+            get { return _deptName; }
+            set { _deptName = value; }
+        }
         public QueryPerson(CompanyApp app):base(app)
         {
             Id = new SLMField(this, "id", SLMFieldType.Int, true);
@@ -82,7 +100,13 @@ namespace SqlSmartTest
     }
     public class QueryPersonCount : SLMObject
     {
-        public SLMField Count = null;
+        private SLMField _count = null;
+
+        public SLMField Count
+        {
+            get { return _count; }
+            set { _count = value; }
+        }
         public QueryPersonCount(CompanyApp app)
             : base(app)
         {

@@ -95,7 +95,24 @@ namespace SqlSmart
     public class SLMObject
     {
         public Dictionary<string, SLMField> fields = null;
+
+        private string _alias = "";
+
+        public string Alias
+        {
+            get { return _alias; }
+            set { _alias = value; }
+        }
+        private bool _userAlias = false;
+        public virtual string GetTableName() { UnsupportException(); return ""; }
+        public bool UseAlias
+        {
+            get { return _userAlias; }
+            set { _userAlias = value; }
+        }
+
         private SLMObject()
+
         {
             fields = new Dictionary<string, SLMField>();
         }
@@ -107,6 +124,14 @@ namespace SqlSmart
         protected SLMField CreateField(string fieldname, SLMFieldType fieldtype)
         {
             return new SLMField(this, fieldname, fieldtype, false);
+        }
+        public override string ToString()
+        {
+            string tablename = GetTableName();
+            if (UseAlias)
+                return tablename + " " + Alias;
+            else
+                return tablename;
         }
         public void InitFields()
         {
@@ -362,7 +387,10 @@ namespace SqlSmart
         }
         public override string ToString()
         {
-            return _ownerTable.ToString() + "." + FieldName;
+            if (!_ownerTable.UseAlias)
+                return _ownerTable.ToString() + "." + FieldName;
+            else
+                return _ownerTable.Alias + "." + FieldName;
         }
         public SLMField(SLMObject table, string fieldname, SLMFieldType fieldtype,bool iskey)
             : this(table, fieldname,fieldtype)

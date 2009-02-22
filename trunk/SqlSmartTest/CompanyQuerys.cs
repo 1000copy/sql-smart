@@ -67,7 +67,7 @@ namespace SqlSmartTest
             Dept dept = CompanyApp.CompanyDb.Dept;
             person.Alias = "p";
             dept.Alias = "d";
-            person.UseAlias = true;
+            person.UseAlias = true; 
             dept.UseAlias = true;
             sql = string.Format(sql, person.Id,person.Name,dept.Name ,person, dept, person.DeptId, dept.Id);
             return sql;

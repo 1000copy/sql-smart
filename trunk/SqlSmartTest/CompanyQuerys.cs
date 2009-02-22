@@ -29,12 +29,41 @@ namespace SqlSmartTest
             get { return _deptName; }
             set { _deptName = value; }
         }
+        public override string GetTableName()
+        {
+            return this.ToString();
+        }
+        public override string ToString()
+        {
+            return "Person";
+        }
         public QueryPerson(CompanyApp app):base(app)
         {
             Id = new SLMField(this, "id", SLMFieldType.Int, true);
             Name = new SLMField(this, "name", SLMFieldType.String);
             DeptName = new SLMField(this, "DeptName", SLMFieldType.String);
+            InitFields();
         }
+    }
+    public class FieldMeta
+    {
+        public string Name = "";
+        public string Caption = "";
+        public FieldMeta(string _name,string _caption)
+        {
+            Name = _name;
+            Caption = _caption;
+        }
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+    public class QueryPersonMeta
+    {
+        public static FieldMeta Id = new FieldMeta("id","No");
+        public static FieldMeta Name = new FieldMeta("name", "Ãû×Ö");
+        public static FieldMeta DeptName = new FieldMeta("deptname", "²¿ÃÅ");
     }
 
     public class QueryPersons : SLMQuery<QueryPerson>
@@ -61,10 +90,19 @@ namespace SqlSmartTest
         CompanyApp CompanyApp {get{return SLMApp as CompanyApp;}}
         protected override string GetSql()
         {
-            string sql = "select {0} as id ,{1} as name ,{2} as DeptName from {3} left join {4} on {5}={6} where {7} like '%{8}%'";
             Person person = CompanyApp.CompanyDb.Person;
             Dept dept = CompanyApp.CompanyDb.Dept;
-            sql = string.Format(sql, person.Id.FieldNameWithPrefix, person.Name.FieldNameWithPrefix, dept.Name.FieldNameWithPrefix, person, dept, person.DeptId.FieldNameWithPrefix, dept.Id.FieldNameWithPrefix,person.Name.FieldNameWithPrefix,_name);
+            string sql = "";
+            if (_name != "")
+            {
+                sql = "select {0} as id ,{1} as name ,{2} as DeptName from {3} left join {4} on {5}={6} where {7} like '%{8}%'";
+                sql = string.Format(sql, person.Id.FieldNameWithPrefix, person.Name.FieldNameWithPrefix, dept.Name.FieldNameWithPrefix, person, dept, person.DeptId.FieldNameWithPrefix, dept.Id.FieldNameWithPrefix, person.Name.FieldNameWithPrefix, _name);
+            }
+            else
+            {
+                sql = "select {0} as id ,{1} as name ,{2} as DeptName from {3} left join {4} on {5}={6}";
+                sql = string.Format(sql, person.Id.FieldNameWithPrefix, person.Name.FieldNameWithPrefix, dept.Name.FieldNameWithPrefix, person, dept, person.DeptId.FieldNameWithPrefix, dept.Id.FieldNameWithPrefix);
+            }
             return sql;
         }
         public QueryPersonsByName(CompanyApp app,string name):base(app)

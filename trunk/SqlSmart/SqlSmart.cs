@@ -319,25 +319,25 @@ namespace SqlSmart
         public int Insert()
         {
             string sql = "insert into {0} ({1}) values({2})";
-            sql = string.Format(sql, this, FieldNamesWhichHasValue, FieldValues);
+            sql = string.Format(sql, this.GetTableName(), FieldNamesWhichHasValue, FieldValues);
             return SLMApp.DbHelper.Exec(sql);
         }
         public int Update()
         {
             string sql = "update {0} set {1} where {2}={3}";
-            sql = string.Format(sql, this, FieldEqualValues, TableKeyName, TableKeyValue);
+            sql = string.Format(sql, this.GetTableName(), FieldEqualValues, TableKeyName, TableKeyValue);
             return SLMApp.DbHelper.Exec(sql);
         }
         public int Delete()
         {
             string sql = "delete from {0} where {1}={2}";
-            sql = string.Format(sql, this, TableKeyName, TableKeyValue);
+            sql = string.Format(sql, this.GetTableName(), TableKeyName, TableKeyValue);
             return SLMApp.DbHelper.Exec(sql);
         }
         public int DeleteAll()
         {
             string sql = "delete from {0} ";
-            sql = string.Format(sql, this);
+            sql = string.Format(sql, this.GetTableName());
             return SLMApp.DbHelper.Exec(sql);
         }
         public string SelectAllSql()

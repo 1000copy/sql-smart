@@ -46,7 +46,7 @@ namespace SqlSmartTest
             string sql = "select {0} as id ,{1} as name ,{2} as DeptName from {3} left join {4} on {5}={6}";
             Person person = CompanyApp.CompanyDb.Person ;
             Dept dept = CompanyApp.CompanyDb.Dept ;
-            sql = string.Format(sql, person.Id.FieldName, person.Name.FieldName, dept.Name.FieldName, person, dept, person.DeptId.FieldName, dept.Id.FieldName);
+            sql = string.Format(sql, person.Id.FieldNameWithPrefix, person.Name.FieldNameWithPrefix, dept.Name.FieldNameWithPrefix, person, dept, person.DeptId.FieldNameWithPrefix, dept.Id.FieldNameWithPrefix);
             return sql;
         }
         public QueryPersons(CompanyApp app)
@@ -64,7 +64,7 @@ namespace SqlSmartTest
             string sql = "select {0} as id ,{1} as name ,{2} as DeptName from {3} left join {4} on {5}={6} where {7} like '%{8}%'";
             Person person = CompanyApp.CompanyDb.Person;
             Dept dept = CompanyApp.CompanyDb.Dept;
-            sql = string.Format(sql, person.Id.FieldName, person.Name.FieldName, dept.Name.FieldName, person, dept, person.DeptId.FieldName, dept.Id.FieldName,person.Name.FieldName,_name);
+            sql = string.Format(sql, person.Id.FieldNameWithPrefix, person.Name.FieldNameWithPrefix, dept.Name.FieldNameWithPrefix, person, dept, person.DeptId.FieldNameWithPrefix, dept.Id.FieldNameWithPrefix,person.Name.FieldNameWithPrefix,_name);
             return sql;
         }
         public QueryPersonsByName(CompanyApp app,string name):base(app)
@@ -87,7 +87,7 @@ namespace SqlSmartTest
             dept.Alias = "d";
             person.UseAlias = true; 
             dept.UseAlias = true;
-            sql = string.Format(sql, person.Id.FieldName,person.Name.FieldName,dept.Name.FieldName ,person, dept, person.DeptId.FieldName, dept.Id.FieldName);
+            sql = string.Format(sql, person.Id.FieldNameWithPrefix,person.Name.FieldNameWithPrefix,dept.Name.FieldNameWithPrefix ,person, dept, person.DeptId.FieldNameWithPrefix, dept.Id.FieldNameWithPrefix);
             return sql;
         }
         public QueryPersonsAlias(CompanyApp app)

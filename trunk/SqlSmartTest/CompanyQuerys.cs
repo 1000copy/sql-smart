@@ -54,6 +54,44 @@ namespace SqlSmartTest
             _name = name;
         }
     }
+    public class QueryPersonsAlias1 : SLMQuery<QueryPerson>
+    {
+        // 效果1
+        //string sql = "select * from person p left join dept d on p.deptid=d.id";
+      
+        protected override string GetSql()
+        {
+            string sql = "select * from {0} left join {1} on {2}={3} ";
+            Person person = CompanyApp.CompanyDb.Person;
+            Dept dept = CompanyApp.CompanyDb.Dept;
+            person.Alias = "p";
+            dept.Alias = "d";
+            person.UseAlias = true;
+            dept.UseAlias = true;
+            sql = string.Format(sql, person, dept, person.DeptId, dept.Id);
+            return sql;
+        }
+
+    }
+    public class QueryPersonsAlias2 : SLMQuery<QueryPerson>
+    {
+        // 效果2
+        //string sql = "select p.name,p.id,d.name as deptname from person p left join dept d on p.deptid=d.id";
+
+        protected override string GetSql()
+        {
+            string sql = "select {0},{1},{2} from {3} left join {4} on {5}={6} ";
+            Person person = CompanyApp.CompanyDb.Person;
+            Dept dept = CompanyApp.CompanyDb.Dept;
+            person.Alias = "p";
+            dept.Alias = "d";
+            person.UseAlias = true;
+            dept.UseAlias = true;
+            sql = string.Format(sql, person.Id,person.Name,dept.Name ,person, dept, person.DeptId, dept.Id);
+            return sql;
+        }
+
+    }
     public class QueryPersonCount : SLMObject
     {
         public SLMField Count = null;

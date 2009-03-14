@@ -5,48 +5,27 @@ sql-smart 介绍
 
 1. sql-smart是什么？
 
-sql-smart是一个DotNet类库，它可以充分利用 codeinsight ,面向对象技术来帮助程序员更快的，更准确到编写sql，这样的sql以容易重构的。
-听起来陌生？这是想法我之前并没有在其他ORM技术，比如 Hibernate,ROR内这样大名鼎鼎到类库中见过（如果你发现这并不确切，请给我打个招呼）。
-因此，这并不是一个Yet Another的类库。
-不过它不像是听起来那么复杂，实际上，它的主要特点就是简单。我会继续详细的说明，包括必要到例子。
-鉴于简单，也不需要特定到语言特色的支持，因此，在其他语言中一样可以实现。
-不过，我发现C#的模板技术，和RTTI 让代码编写更加容易，并且VS到code insight技术让sql-smart工作良好。
-实际上我的实现正是基于C#来做的。
+sql-smart是一个非常简单的ORM，使用它你可以
+  *  不必改变编写sql的习惯
+  *  充分利用 codeinsight
+  *  充分利用 重构技术
 
-sql-smart和Hibernite有类似之处，都是采用类表达数据库，不同的是，掌握后者需要一本书和很多的实践，掌握前者你需要的只是看看这篇文档，然后下载一份去尝试。
+听起来陌生？这是我的实验室项目，并未公开，现在还在实验中，不过现在是可用的状态。
+
+sql-smart和Hibernite有类似之处，都是采用类映射数据库表，字段；
+不同的是，掌握后者需要一本书和很多的实践，掌握前者你需要的只是看看这篇文档，然后下载一份去尝试。
 
 
 2. sql-smart能做什么？
 
-用一个例子来说明吧。
-如果给你一个数据库，内有表两张。一个Dept，一个Person，这是我们比较常见到表，他们可以有关联关系，比如Person和Dept有多对一的关系。
-它们到创建sql为：
+看一个简单的sql对比：
 
-  drop table Person
-  drop table Dept
-  create table Person
-  (
-    id int,
-    DeptId int,
-    name varchar(10),
-	birthday datetime
-  )
-  create table Dept
-  (
-    id int,
-    name varchar(10)
-  )
-  那么对它到常用操作比如查询PersonList : 
-    sql = "select d.name as deptname,p.name,p.id from person  p left join dept d on p.deptid = d.id"
-  这对大家来说是再熟悉不过的了。对我也是如此，我自从第一次使用sqlserver就是这么干的，干了很多年了。
-  那么在sql-smart内将会是
-  
-    string sql = "";
-    sql = "select {0},{1},{2} from {3} left join {4} on {5} ={6} ";
+* 纯粹sql 
+  string sql = "  select id,name,dept.name  from person left join dept on person.deptid = person.id";
+
+* sql-smart
+   sql = "select {0},{1},{2} from {3} left join {4} on {5} ={6} ";
     sql = string.Format(sql, Dept.Name ,Person.name,Person.id, Person, Dept, Person.DeptId, Dept.Id);
-  差别不大，实际上sql-smart的关键技术不去改变写sql到过程。不想Hibernian，ROR以类为核心，而Linq看起来像是sql，实际上不是。有些很细微到，麻烦的模式切换。
-  我的观点一向是sql是工业标准，围绕着sql去做工作，而不是另外建立一套专有方案，会让迁移模式变得简单。
-  那么好处是什么？
   
 3. 更快，更加精确，不必改变现在的习惯。
 
@@ -61,17 +40,27 @@ sql-smart和Hibernite有类似之处，都是采用类表达数据库，不同的是，掌握后者需要一本
    3.4 Pure sql无法利用VS的代码提示，而sql-smart可以。
     比如 Dept.Name ,Person.name,Person.id，这里到Person,Dept,Name,Id都是可以代码提示的。   
    3.5 Linq,ROR,Hibernate都需要改变程序员到习惯，sql-smart的改变很小。
-   看上面提供的对比例子就知道这一点是OK的。
-   
+   看上面提供的对比例子就知道这一点是OK的。   
    
    采用sql-smart可以更好到利用语言到编译能力去检错，并且充分利用VS提供的重构，代码提示功能。
+4. sql-smart不做的
+   不做完整的映射（比如外键，级联更新），只是简单的表到类，字段到属性。
+   这样的好处是简单，并且承认OO不能替换sql，它们根本不能互相替换，而各有强项。
+   sql的强项在于
+     * 大量的优化
+     * 强大的集合操作
+     * 强大的数据表达能力
+   OO的的强项：
+     * 表达操作和封装的能力
+     * 现在的重构，重载的支持
    
-4. 如何才可以开始?
+5. 如何才可以开始?
     sql-smart.dll 提供以上能力（必须）
-    sql-smart_autogene.exe 生成类和数据库表字段的对应关系。（可选），你可以自己写对应关系，这样并不麻烦。
+    sql-smart_autogene.exe 生成类和数据库表字段的对应关系。（没有完成），你可以自己写对应关系，这样并不麻烦。
     看例子可以更快进入状态。
     请从 sql-smart @ google code :http://code.google.com/p/sql-smart/ 下载。
-    使用这个类库，你需要有vS2008的安装，当然如果只是阅读，随便什么Notepad就可以。
+    使用这个类库，你需要有vS2005的安装，当然如果只是阅读，随便什么Notepad就可以。
+
 
   
   

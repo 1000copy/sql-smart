@@ -1,0 +1,7 @@
+F:\lcjun\sql-smart\OpenIlas\bin\Debug\openilas.exe.config
+F:\lcjun\sql-smart\OpenIlas\obj\Debug\ResolveAssemblyReference.cache
+F:\lcjun\sql-smart\OpenIlas\obj\Debug\openilas.Properties.Resources.resources
+F:\lcjun\sql-smart\OpenIlas\obj\Debug\openilas.ReaderAdd.resources
+F:\lcjun\sql-smart\OpenIlas\obj\Debug\openilas.ReaderList.resources
+F:\lcjun\sql-smart\OpenIlas\obj\Debug\openilas.MainForm.resources
+F:\lcjun\sql-smart\OpenIlas\obj\Debug\openilas_.csproj.GenerateResource.Cache

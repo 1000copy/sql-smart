@@ -1,4 +1,43 @@
 
+解决布局问题
+
+1. 我想要做的是：
+   上面的操作区，dock= top，下面的视图区，dock= fill ,代码如下：
+  例如:   
+  控件1.height   =   100;   
+  控件1.dock   =   DockStyle.Top;   
+  容器.controls.add(控件1);   
+    
+  控件2.dock   =   DockStyle.Fill;   
+  容器.controls.add(控件2);   
+看到的问题是：
+  这样的话，控件2就会充满整个容器，我本来打算让他充满容器里面除了控件1的所有的空间，但是它把控件1给覆盖了，为什么啊，能不能达到我想要的效果，就是控件1在上面，然后控件2充满整个剩余的整个空间？？   
+
+解决的方法是：
+  TO:控件1.height   =   100;   
+  控件1.dock   =   DockStyle.Top;   
+  容器.controls.add(控件1);   
+    
+  控件2.dock   =   DockStyle.Fill;   
+  容器.controls.add(控件2);   
+    
+    
+  改成如下即可:   
+    
+  控件1.height   =   100;   
+  控件1.dock   =   DockStyle.Top;   
+    
+  控件2.dock   =   DockStyle.Fill;   
+    
+
+  容器.controls.add(控件2);   
+  容器.controls.add(控件1);   
+    
+  即最后加top的控件...   
+参考：
+http://topic.csdn.net/t/20061204/11/5204507.html
+
+----------------
 
 2009年2月8日 初始版本，从2009年2月5日有了想法，在周末做了一个实现，现在支持int,string,datetime三种类型
 

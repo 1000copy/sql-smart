@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SqlSmart;
 using System.Data.Common;
-
+// TEST VISUALSVN COMMIT ,集成到vs内。
 namespace SqlSmartTest
 {
     class TestSqlite

@@ -24,7 +24,7 @@ namespace SqlSmart
         private  SLMDatabase _database = null;
         public  IDbHelper DbHelper { get { return _dbhelper; } }
         public  SLMDatabase Database { get { return _database; } }
-        public void CreateApp(IDbHelper dbhelper, SLMDatabase database)
+        protected void CreateApp(IDbHelper dbhelper, SLMDatabase database)
         {
             _dbhelper = dbhelper;
             _database = database;
@@ -96,6 +96,14 @@ namespace SqlSmart
 
     public class SLMObject
     {
+        public void ClearValues()
+        {
+            foreach (SLMField field in fields.Values)
+            {
+                field.ClearValue();
+            }
+        }
+        
         public Dictionary<string, SLMField> fields = null;
 
         private string _alias = "";
@@ -107,6 +115,11 @@ namespace SqlSmart
         }
         private bool _userAlias = false;
         public virtual string GetTableName() { UnsupportException(); return ""; }
+
+        private void UnsupportException()
+        {
+            throw new NotImplementedException();
+        }
         public bool UseAlias
         {
             get { return _userAlias; }
@@ -156,14 +169,9 @@ namespace SqlSmart
         {
             return fieldtype == typeof(SLMField);
         }
-        private void UnsupportException ()
+        private void UnsupportException (SLMField field)
         {
-            new Exception(string.Format("Unsupport field type:")); 
-        }
-        private void CheckSupportFieldType(Type fieldtype)
-        {
-            if (!IsSupportFieldType(fieldtype))
-                UnsupportException();
+            throw new Exception(string.Format("Unsupport field type:{0},field name :{1}",field.FieldType,field.FieldName)); 
         }
         public virtual string TableKeyName
         {
@@ -292,18 +300,20 @@ namespace SqlSmart
                 foreach (KeyValuePair<string, SLMField> keyvalue in fields)
                 {
                     i++;
-                    SLMField field = keyvalue.Value;
-                    CheckSupportFieldType(field.GetType());
+                    SLMField field = keyvalue.Value;                    
                     if (field.FieldType == SLMFieldType.Int)
                     {
-                        r += string.Format("{0}={1}", field.FieldNameWithPrefix, field.Value.ToString());
+                        r += string.Format("{0}={1}", field.FieldName, field.Value.ToString());
                     }
                     else if (field.FieldType == SLMFieldType.String)
                     {
-                        r += string.Format("{0}='{1}'", field.FieldNameWithPrefix, field.Value.ToString());
+                        r += string.Format("{0}='{1}'", field.FieldName, field.Value.ToString());
+                    }else if (field.FieldType == SLMFieldType.DateTime)
+                    {
+                        r += string.Format("{0}='{1}'", field.FieldName, field.Value.ToString());
                     }
-                    else
-                        UnsupportException();
+                    else 
+                        UnsupportException(field);
                     if (i != fields.Keys.Count)
                         r += ",";
                 }
@@ -419,7 +429,6 @@ namespace SqlSmart
             else
                 return _ownerTable.Alias + "." + FieldName;
              */
-            // TODO : 判断是否可以转换
             return Value.ToString();
         }
         public SLMField(SLMObject table, string fieldname, SLMFieldType fieldtype,bool iskey)
@@ -445,6 +454,11 @@ namespace SqlSmart
         {
             get { return _iskey; }
             set { _iskey = value; }
+        }
+
+        internal void ClearValue()
+        {
+            _value = null;
         }
     }
 }
